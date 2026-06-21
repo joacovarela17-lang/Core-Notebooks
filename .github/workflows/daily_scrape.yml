@@ -1,0 +1,46 @@
+name: Daily Visão VIP Scraper
+
+on:
+  schedule:
+    # Run every day at 3:00 AM UTC (approx. 12:00 AM Argentina time)
+    - cron: '0 3 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install beautifulsoup4 openpyxl
+
+      - name: Run Visao VIP Scraper
+        run: python update_catalog.py
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          
+          # Check if there are any changes to commit
+          if [ -n "$(git status --porcelain catalog.json)" ]; then
+            git add catalog.json
+            git commit -m "auto: Daily Visão VIP catalog update [skip ci]"
+            git push origin main
+          else
+            echo "No changes in catalog.json. Skipping push."
+          fi

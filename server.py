@@ -86,9 +86,35 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(json.dumps({"error": "Failed to parse uploaded image"}).encode('utf-8'))
                 
+        elif url_path == '/api/save-config':
+            content_length = int(self.headers.get('Content-Length', 0))
+            post_data = self.rfile.read(content_length)
+            
+            try:
+                config_data = json.loads(post_data.decode('utf-8'))
+                config_path = os.path.join(os.getcwd(), 'pricing_config.json')
+                with open(config_path, 'w', encoding='utf-8') as f:
+                    json.dump(config_data, f, indent=4, ensure_ascii=False)
+                
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": True}).encode('utf-8'))
+            except Exception as e:
+                self.send_response(400)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
+                
         elif url_path == '/api/export-excel':
             try:
-                result = subprocess.run(['python', 'scrape_to_excel.py'], capture_output=True, text=True, check=True)
+                # Use absolute python executable path on host
+                python_exe = r"C:\Users\joaco\AppData\Local\Programs\Python\Python313\python.exe"
+                if not os.path.exists(python_exe):
+                    python_exe = "python"
+                result = subprocess.run([python_exe, 'scrape_to_excel.py'], capture_output=True, text=True, check=True)
                 print("Excel export output:", result.stdout)
                 
                 self.send_response(200)

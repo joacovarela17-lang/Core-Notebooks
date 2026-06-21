@@ -22,6 +22,7 @@ def get_blue_rate():
 def generate_excel():
     blue_rate = get_blue_rate()
     catalog_path = 'catalog.json'
+    config_path = 'pricing_config.json'
     output_path = 'precios_venta.xlsx'
     
     if not os.path.exists(catalog_path):
@@ -31,20 +32,35 @@ def generate_excel():
     with open(catalog_path, 'r', encoding='utf-8') as f:
         products = json.load(f)
         
-    # Filter out products with cost <= $700
-    filtered_products = [p for p in products if float(p.get('price_usd', 0)) > 700.0]
-    
+    markup_factor = 1.20
+    fixed_fee_usd = 140.0
+    if os.path.exists(config_path):
+        try:
+            with open(config_path, 'r', encoding='utf-8') as f:
+                config = json.load(f)
+                markup_factor = float(config.get('markup_factor', 1.20))
+                fixed_fee_usd = float(config.get('fixed_fee_usd', 140.0))
+        except Exception as e:
+            print(f"Error loading pricing config: {e}")
+            
     headers = [
         "ID", "Marca", "Modelo", "Categoría", "Tipo", 
-        "Costo USD", "Precio Venta USD", "Precio Venta ARS", "Ganancia USD"
+        "Costo USD", "Precio Venta USD", "Precio Venta ARS", "Ganancia USD", "Publicado"
     ]
     
     rows = []
-    for p in filtered_products:
+    for p in products:
         cost = float(p.get('price_usd', 0))
-        selling_usd = 1.20 * cost + 140
+        custom_price = p.get('custom_price_usd')
+        
+        if custom_price is not None and float(custom_price) > 0:
+            selling_usd = float(custom_price)
+        else:
+            selling_usd = markup_factor * cost + fixed_fee_usd
+            
         selling_ars = selling_usd * blue_rate
         profit_usd = selling_usd - cost
+        published = "Sí" if p.get('published', True) is not False else "No"
         
         rows.append([
             p.get('id', ''),
@@ -55,7 +71,8 @@ def generate_excel():
             cost,
             round(selling_usd, 2),
             round(selling_ars, 2),
-            round(profit_usd, 2)
+            round(profit_usd, 2),
+            published
         ])
         
     try:
@@ -99,7 +116,7 @@ def generate_excel():
                 cell.border = thin_border
                 
                 # Alignments and number formats
-                if c_idx in [1, 4, 5]:  # ID, Category, Type
+                if c_idx in [1, 4, 5, 10]:  # ID, Category, Type, Published
                     cell.alignment = center_align
                 elif c_idx in [2, 3]:   # Brand, Model
                     cell.alignment = left_align

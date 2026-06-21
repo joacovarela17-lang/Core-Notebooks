@@ -41,6 +41,26 @@
 
         <!-- DASHBOARD CONTAINER -->
         <main class="view-section" style="padding-top: 120px; padding-bottom: 60px;">
+            <!-- Global Config Section -->
+            <section id="global-pricing-config" class="catalog-section" style="max-width: 1200px; margin: 0 auto 2rem auto; padding: 0 20px;">
+                <div class="config-section-card">
+                    <h3 class="filter-label" style="margin-top: 0; margin-bottom: 1.5rem; font-size: 1.1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;"><i class="fa-solid fa-calculator"></i> Ajuste de Precios Global</h3>
+                    <form id="global-pricing-form" class="config-form-grid">
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <label for="global-markup-factor" style="margin-bottom: 6px;">Factor de Recargo (Multiplicador):</label>
+                            <input type="number" id="global-markup-factor" step="0.01" min="1.00" max="3.00" required style="width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); color: var(--text-primary); padding: 12px; border-radius: 12px; font-family: var(--font-body); outline: none;">
+                        </div>
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <label for="global-fixed-fee" style="margin-bottom: 6px;">Cargo Fijo de Venta (USD):</label>
+                            <input type="number" id="global-fixed-fee" step="1" min="0" required style="width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); color: var(--text-primary); padding: 12px; border-radius: 12px; font-family: var(--font-body); outline: none;">
+                        </div>
+                        <button type="submit" class="btn-admin" style="padding: 12px 24px; border-radius: 12px; height: max-content; width: 100%; justify-content: center;">
+                            <i class="fa-solid fa-save"></i> Guardar Configuración
+                        </button>
+                    </form>
+                </div>
+            </section>
+
             <section id="dashboard" class="catalog-section" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
                 <div class="dashboard-header-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
                     <div>
@@ -126,12 +146,14 @@
                                 </select>
                             </div>
                             <div class="input-group">
-                                <label for="edit-product-type">Tipo de Equipo:</label>
-                                <select id="edit-product-type" required style="width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); color: var(--text-primary); padding: 12px; border-radius: 12px; font-family: var(--font-body); outline: none;">
-                                    <option value="notebook" style="background:#0b0b0c;">Notebook</option>
-                                    <option value="desktop" style="background:#0b0b0c;">PC Escritorio</option>
-                                </select>
+                                <label for="edit-product-custom-price">Precio Venta Personalizado (USD):</label>
+                                <input type="number" id="edit-product-custom-price" step="1" placeholder="Ej. 1200 (En blanco para auto-calcular)" style="width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); color: var(--text-primary); padding: 12px; border-radius: 12px; font-family: var(--font-body); outline: none;">
                             </div>
+                        </div>
+
+                        <div class="input-group checkbox-group">
+                            <input type="checkbox" id="edit-product-published" checked>
+                            <label for="edit-product-published">Publicar en la web (Mostrar en catálogo público)</label>
                         </div>
 
                         <h3 class="filter-label" style="margin-top: 1.5rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Especificaciones Técnicas</h3>

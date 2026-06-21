@@ -6,7 +6,7 @@
 
 // Global configuration and state
 const WSP_NUMBER = "5491134567890"; // Argentine sales WhatsApp number
-const PROFIT_MARKUP_ARS = 250000; // Profit markup added to ARS, converted to USD
+let pricingConfig = { markup_factor: 1.20, fixed_fee_usd: 140 }; // Loaded dynamically from pricing_config.json
 let allNotebooks = [];
 let filteredNotebooks = [];
 let blueRate = 1250; // Fallback rate in case API fails
@@ -191,17 +191,21 @@ currencyToggle.addEventListener('change', (e) => {
 });
 
 function initFilterState() {
+    const factor = pricingConfig.markup_factor;
+    const fee = pricingConfig.fixed_fee_usd;
     if (currentCurrency === 'ARS') {
-        maxPrice = Math.round((1.20 * 4500 + 140) * blueRate);
+        maxPrice = Math.round((factor * 4500 + fee) * blueRate);
     } else {
-        maxPrice = Math.round(1.20 * 4500 + 140);
+        maxPrice = Math.round(factor * 4500 + fee);
     }
 }
 
 function adjustPriceSliderForCurrency() {
+    const factor = pricingConfig.markup_factor;
+    const fee = pricingConfig.fixed_fee_usd;
     if (currentCurrency === 'ARS') {
-        const minARS = Math.round((1.20 * 300 + 140) * blueRate);
-        const maxARS = Math.round((1.20 * 4500 + 140) * blueRate);
+        const minARS = Math.round((factor * 300 + fee) * blueRate);
+        const maxARS = Math.round((factor * 4500 + fee) * blueRate);
         priceRange.min = minARS;
         priceRange.max = maxARS;
         priceRange.step = 50000;
@@ -215,8 +219,8 @@ function adjustPriceSliderForCurrency() {
         priceRange.value = maxPrice;
         priceSliderValue.innerText = `$${parseInt(priceRange.value).toLocaleString('es-AR')} ARS`;
     } else {
-        const minUSD = Math.round(1.20 * 300 + 140);
-        const maxUSD = Math.round(1.20 * 4500 + 140);
+        const minUSD = Math.round(factor * 300 + fee);
+        const maxUSD = Math.round(factor * 4500 + fee);
         priceRange.min = minUSD;
         priceRange.max = maxUSD;
         priceRange.step = 100;
@@ -237,9 +241,23 @@ function adjustPriceSliderForCurrency() {
    ========================================================================== */
 async function loadCatalog() {
     try {
+        // Load pricing config first
+        try {
+            const configResponse = await fetch('pricing_config.json');
+            if (configResponse.ok) {
+                pricingConfig = await configResponse.json();
+                console.log("Pricing Config loaded:", pricingConfig);
+            }
+        } catch (configErr) {
+            console.warn("Could not load pricing_config.json, using defaults:", configErr);
+        }
+
         const response = await fetch('catalog.json');
         if (!response.ok) throw new Error('Catalog missing');
         allNotebooks = await response.json();
+        
+        // Ensure no PC Gamer remains (filter desktops if any slipped through)
+        allNotebooks = allNotebooks.filter(item => item.type !== 'desktop');
         filteredNotebooks = [...allNotebooks];
         
         // Build price ranges
@@ -268,21 +286,22 @@ function setupToggleFilters() {
 function renderNotebooks() {
     // Advanced filters matching view (by default filters are set to show everything)
     filteredNotebooks = allNotebooks.filter(item => {
-        // Filter out products with price <= 700 for client-facing views
-        if (item.price_usd <= 700) return false;
+        // Hide if not published
+        if (item.published === false) return false;
         
         const matchesSearch = searchPhrase === '' || 
             item.name.toLowerCase().includes(searchPhrase) ||
             item.brand.toLowerCase().includes(searchPhrase) ||
             (item.specs.cpu && item.specs.cpu.toLowerCase().includes(searchPhrase)) ||
             (item.specs.ram && item.specs.ram.toLowerCase().includes(searchPhrase)) ||
-            (item.specs.gpu && item.specs.gpu.toLowerCase().includes(searchPhrase)) ||
-            (item.type && item.type.toLowerCase().includes(searchPhrase));
+            (item.specs.gpu && item.specs.gpu.toLowerCase().includes(searchPhrase));
             
         const matchesBrand = activeBrand === 'all' || item.brand === activeBrand;
         const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
         
-        const sellingUsd = 1.20 * item.price_usd + 140;
+        const sellingUsd = item.custom_price_usd && Number(item.custom_price_usd) > 0 ?
+            Number(item.custom_price_usd) :
+            (pricingConfig.markup_factor * item.price_usd + pricingConfig.fixed_fee_usd);
         const priceToCompare = currentCurrency === 'ARS' ? 
             (sellingUsd * blueRate) : 
             sellingUsd;
@@ -299,7 +318,7 @@ function renderNotebooks() {
     productsGrid.innerHTML = '';
     
     filteredNotebooks.forEach(laptop => {
-        const displayPrice = getFormattedPrice(laptop.price_usd);
+        const displayPrice = getFormattedPrice(laptop.price_usd, laptop.custom_price_usd);
         const card = document.createElement('div');
         card.className = 'product-card';
         card.setAttribute('data-id', laptop.id);
@@ -309,19 +328,16 @@ function renderNotebooks() {
         else if (laptop.category === 'productivity') categoryIcon = "fa-laptop-code";
         else if (laptop.category === 'design') categoryIcon = "fa-palette";
         
-        // Custom badge for computer type (Notebook vs. Desktop PC)
-        const typeBadge = laptop.type === 'desktop' ? 
-            `<span class="card-category-badge" style="background: rgba(0, 113, 227, 0.1); border-color: rgba(0, 113, 227, 0.25); color: #8bbfff;"><i class="fa-solid fa-desktop"></i> PC Escritorio</span>` :
-            `<span class="card-category-badge"><i class="fa-solid ${categoryIcon}"></i> ${laptop.category}</span>`;
+        const typeBadge = `<span class="card-category-badge"><i class="fa-solid ${categoryIcon}"></i> ${laptop.category}</span>`;
         
         card.innerHTML = `
             ${typeBadge}
             <div class="product-image-wrapper">
-                <img src="${laptop.image}" alt="${laptop.name}" onerror="this.src='https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=400&q=80'">
+                <img src="${laptop.image}" alt="${getCleanName(laptop.name, laptop.brand)}" onerror="this.src='https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=400&q=80'">
             </div>
             <div class="product-details">
                 <span class="product-brand">${laptop.brand}</span>
-                <h3 class="product-name" title="${laptop.name}">${laptop.name}</h3>
+                <h3 class="product-name" title="${laptop.name}">${getCleanName(laptop.name, laptop.brand)}</h3>
                 
                 <ul class="product-specs-summary">
                     <li><i class="fa-solid fa-microchip"></i> <span>${laptop.specs.cpu}</span></li>
@@ -332,7 +348,7 @@ function renderNotebooks() {
                 
                 <div class="card-footer">
                     <div class="price-box">
-                        <span class="price-label">Precio</span>
+                           <span class="price-label">Precio</span>
                         <span class="price-value">${displayPrice}</span>
                     </div>
                     <button class="buy-card-btn" title="Ver detalles y comprar">
@@ -356,13 +372,13 @@ function renderFeaturedNotebooks() {
     const featuredGrid = document.getElementById('featured-grid');
     if (!featuredGrid) return;
     
-    const featuredIds = ['56990', '57003', '54911'];
-    const featuredItems = allNotebooks.filter(item => featuredIds.includes(item.id) && item.price_usd > 700);
+    const featuredIds = ['56990', '57003', '57715'];
+    const featuredItems = allNotebooks.filter(item => featuredIds.includes(item.id) && item.published !== false);
     
     featuredGrid.innerHTML = '';
     
     featuredItems.forEach(laptop => {
-        const displayPrice = getFormattedPrice(laptop.price_usd);
+        const displayPrice = getFormattedPrice(laptop.price_usd, laptop.custom_price_usd);
         const card = document.createElement('div');
         card.className = 'product-card';
         card.setAttribute('data-id', laptop.id);
@@ -372,18 +388,16 @@ function renderFeaturedNotebooks() {
         else if (laptop.category === 'productivity') categoryIcon = "fa-laptop-code";
         else if (laptop.category === 'design') categoryIcon = "fa-palette";
         
-        const typeBadge = laptop.type === 'desktop' ? 
-            `<span class="card-category-badge" style="background: rgba(0, 113, 227, 0.1); border-color: rgba(0, 113, 227, 0.25); color: #8bbfff;"><i class="fa-solid fa-desktop"></i> PC Escritorio</span>` :
-            `<span class="card-category-badge"><i class="fa-solid ${categoryIcon}"></i> ${laptop.category}</span>`;
+        const typeBadge = `<span class="card-category-badge"><i class="fa-solid ${categoryIcon}"></i> ${laptop.category}</span>`;
             
         card.innerHTML = `
             ${typeBadge}
             <div class="product-image-wrapper">
-                <img src="${laptop.image}" alt="${laptop.name}" onerror="this.src='https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=400&q=80'">
+                <img src="${laptop.image}" alt="${getCleanName(laptop.name, laptop.brand)}" onerror="this.src='https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=400&q=80'">
             </div>
             <div class="product-details">
                 <span class="product-brand">${laptop.brand}</span>
-                <h3 class="product-name" title="${laptop.name}">${laptop.name}</h3>
+                <h3 class="product-name" title="${laptop.name}">${getCleanName(laptop.name, laptop.brand)}</h3>
                 
                 <ul class="product-specs-summary">
                     <li><i class="fa-solid fa-microchip"></i> <span>${laptop.specs.cpu}</span></li>
@@ -423,9 +437,53 @@ function renderFeaturedNotebooks() {
     }
 }
 
-function getFormattedPrice(priceUsd, isPlainText = false) {
+function getCleanName(fullName, brand) {
+    if (!fullName) return '';
+    let firstPart = fullName.split('/')[0].trim();
+    firstPart = firstPart.replace(/^(Notebook Gamer|Notebook|PC Gamer|PC Workstation|PC de Oficina|PC Slim|PC|Desktop)\s+/i, '');
+    
+    const cpuPatterns = [
+        /\s+Intel\s+Core\s+i[3579]\b.*/i,
+        /\s+Intel\s+Core\s+Ultra\s+[579]\b.*/i,
+        /\s+Intel\s+i[3579]\b.*/i,
+        /\s+AMD\s+Ryzen\s+[3579]\b.*/i,
+        /\s+Intel\s+Celeron\b.*/i,
+        /\s+Intel\s+Pentium\b.*/i,
+        /\s+Intel\s+Xeon\b.*/i,
+        /\s+AMD\s+Athlon\b.*/i,
+        /\s+Ultra\s+[579]\b.*/i,
+        /\s+Ryzen\s+[3579]\b.*/i,
+        /\s+Core\s+i[3579]\b.*/i,
+        /\s+M[1234]\s+Pro\b.*/i,
+        /\s+M[1234]\s+Max\b.*/i,
+        /\s+M[1234]\s+Ultra\b.*/i,
+        /\s+M[1234]\b.*/i
+    ];
+    
+    let clean = firstPart;
+    for (let pattern of cpuPatterns) {
+        if (pattern.test(clean)) {
+            clean = clean.split(pattern)[0].trim();
+            break;
+        }
+    }
+    
+    if (brand && !clean.toLowerCase().startsWith(brand.toLowerCase())) {
+        clean = brand + " " + clean;
+    }
+    
+    return clean.replace(/\s*-\s*$/g, '').trim();
+}
+
+function getFormattedPrice(priceUsd, customPriceUsd = 0) {
     const cost = Number(priceUsd);
-    const selling_usd = 1.20 * cost + 140;
+    let selling_usd = 0;
+    
+    if (customPriceUsd && Number(customPriceUsd) > 0) {
+        selling_usd = Number(customPriceUsd);
+    } else {
+        selling_usd = pricingConfig.markup_factor * cost + pricingConfig.fixed_fee_usd;
+    }
     
     if (currentCurrency === 'ARS') {
         const priceArs = selling_usd * blueRate;
@@ -512,32 +570,32 @@ resetFiltersBtn.addEventListener('click', () => {
    4. DETAIL MODAL & WHATSAPP REDIRECTION
    ========================================================================== */
 function openDetailModal(laptop) {
-    const displayPrice = getFormattedPrice(laptop.price_usd);
-    const itemTypeWord = laptop.type === 'desktop' ? 'computadora de escritorio' : 'notebook';
+    const displayPrice = getFormattedPrice(laptop.price_usd, laptop.custom_price_usd);
+    const cleanName = getCleanName(laptop.name, laptop.brand);
     
     // WhatsApp prefilled message
-    const message = `¡Hola Core Notebooks! Estoy interesado en la ${itemTypeWord} ${laptop.brand} (Código: ${laptop.id}) publicada a ${displayPrice}. ¿Tienen stock disponible y formas de entrega?\n\nEspecificaciones:\n- CPU: ${laptop.specs.cpu}\n- RAM: ${laptop.specs.ram}\n- SSD: ${laptop.specs.ssd}`;
+    const message = `¡Hola Core Notebooks! Estoy interesado en la notebook ${laptop.brand} (Código: ${laptop.id}) publicada a ${displayPrice}. ¿Tienen stock disponible y formas de entrega?\n\nEspecificaciones:\n- CPU: ${laptop.specs.cpu}\n- RAM: ${laptop.specs.ram}\n- SSD: ${laptop.specs.ssd}`;
     const wspUrl = `https://wa.me/${WSP_NUMBER}?text=${encodeURIComponent(message)}`;
     
     detailModalBody.innerHTML = `
         <button class="modal-close" id="close-detail-btn" style="position: absolute; right: 20px; top: 20px; z-index: 10;"><i class="fa-solid fa-xmark"></i></button>
         <div class="detail-modal-grid">
             <div class="detail-image-box">
-                <img src="${laptop.image}" alt="${laptop.name}" onerror="this.src='https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=600&q=80'">
+                <img src="${laptop.image}" alt="${cleanName}" onerror="this.src='https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=600&q=80'">
             </div>
             <div class="detail-info-box">
                 <div class="detail-header-row">
                     <span class="detail-brand">${laptop.brand}</span>
                     <span class="card-category-badge">${laptop.category}</span>
                 </div>
-                <h2 class="detail-title">${laptop.name}</h2>
+                <h2 class="detail-title">${cleanName}</h2>
                 
                 <h4 class="filter-label" style="margin-bottom: 8px;">Especificaciones Técnicas</h4>
                 <ul class="detail-specs-list">
                     <li><i class="fa-solid fa-microchip"></i> <div><strong>Procesador:</strong> ${laptop.specs.cpu}</div></li>
                     <li><i class="fa-solid fa-memory"></i> <div><strong>Memoria RAM:</strong> ${laptop.specs.ram}</div></li>
                     <li><i class="fa-solid fa-hard-drive"></i> <div><strong>Almacenamiento:</strong> ${laptop.specs.ssd}</div></li>
-                    <li><i class="fa-solid fa-desktop"></i> <div><strong>Pantalla/Gabinete:</strong> ${laptop.specs.screen}</div></li>
+                    <li><i class="fa-solid fa-desktop"></i> <div><strong>Pantalla:</strong> ${laptop.specs.screen}</div></li>
                     <li><i class="fa-solid fa-microchip" style="transform: rotate(45deg);"></i> <div><strong>Gráficos:</strong> ${laptop.specs.gpu}</div></li>
                     <li><i class="fa-solid fa-window-maximize"></i> <div><strong>Sistema Operativo:</strong> ${laptop.specs.os}</div></li>
                     <li><i class="fa-solid fa-barcode"></i> <div><strong>Código de Producto:</strong> ${laptop.id}</div></li>

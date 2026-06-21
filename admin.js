@@ -6,6 +6,7 @@
 
 let allNotebooks = [];
 let blueRate = 1250; // Fallback rate
+let pricingConfig = { markup_factor: 1.20, fixed_fee_usd: 140 }; // Loaded dynamically from pricing_config.json
 
 // DOM Elements
 const blueRateValue = document.getElementById('blue-rate-value');
@@ -27,6 +28,7 @@ const editImagePlaceholder = document.getElementById('edit-product-image-placeho
 // Initial setup
 window.addEventListener('DOMContentLoaded', async () => {
     await fetchExchangeRate();
+    await loadPricingConfig();
     await loadCatalog();
     setupListeners();
 });
@@ -44,6 +46,64 @@ async function fetchExchangeRate() {
     } catch (err) {
         console.warn("Could not fetch live Dolar Blue, using fallback:", blueRate);
         blueRateValue.innerText = `$${blueRate.toLocaleString('es-AR')} (Predeterminado)`;
+    }
+}
+
+// Load Global Pricing Configuration
+async function loadPricingConfig() {
+    try {
+        const response = await fetch('pricing_config.json');
+        if (response.ok) {
+            pricingConfig = await response.json();
+            console.log("Pricing Config loaded in Admin:", pricingConfig);
+        }
+        // Populate global inputs
+        document.getElementById('global-markup-factor').value = pricingConfig.markup_factor;
+        document.getElementById('global-fixed-fee').value = pricingConfig.fixed_fee_usd;
+    } catch (err) {
+        console.warn("Could not load pricing config, using defaults:", err);
+    }
+}
+
+// Save Global Pricing Configuration to disk
+async function handleSaveGlobalPricing(e) {
+    e.preventDefault();
+    const factor = parseFloat(document.getElementById('global-markup-factor').value);
+    const fee = parseInt(document.getElementById('global-fixed-fee').value);
+    
+    pricingConfig = {
+        markup_factor: factor,
+        fixed_fee_usd: fee
+    };
+    
+    try {
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Guardando...';
+        
+        const response = await fetch('/api/save-config', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(pricingConfig)
+        });
+        
+        if (!response.ok) throw new Error('API save-config failed');
+        const res = await response.json();
+        if (res.success) {
+            alert("¡Configuración de precios global guardada y aplicada con éxito!");
+            renderDashboard();
+        } else {
+            alert("Error al intentar aplicar la configuración.");
+        }
+    } catch (err) {
+        console.error("Error saving global config:", err);
+        alert("Error de red al guardar la configuración de precios.");
+    } finally {
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fa-solid fa-save"></i> Guardar Configuración';
     }
 }
 
@@ -82,34 +142,32 @@ function renderDashboard() {
     
     displayProducts.forEach(item => {
         const cost = Number(item.price_usd);
-        const sellingUsd = 1.20 * cost + 140;
+        const sellingUsd = item.custom_price_usd && Number(item.custom_price_usd) > 0 ?
+            Number(item.custom_price_usd) :
+            (pricingConfig.markup_factor * cost + pricingConfig.fixed_fee_usd);
         const profitUsd = sellingUsd - cost;
         
-        // Custom badge for computer type
         let categoryIcon = "fa-laptop";
         if (item.category === 'gaming') categoryIcon = "fa-gamepad";
         else if (item.category === 'productivity') categoryIcon = "fa-laptop-code";
         else if (item.category === 'design') categoryIcon = "fa-palette";
         
-        const typeBadge = item.type === 'desktop' ? 
-            `<span class="card-category-badge" style="background: rgba(0, 113, 227, 0.1); border-color: rgba(0, 113, 227, 0.25); color: #8bbfff; font-size: 0.65rem; margin: 0; padding: 2px 6px;"><i class="fa-solid fa-desktop"></i> PC</span>` :
-            `<span class="card-category-badge" style="font-size: 0.65rem; margin: 0; padding: 2px 6px;"><i class="fa-solid ${categoryIcon}"></i> ${item.category}</span>`;
+        const typeBadge = `<span class="card-category-badge" style="font-size: 0.65rem; margin: 0; padding: 2px 6px;"><i class="fa-solid ${categoryIcon}"></i> ${item.category}</span>`;
 
         const tr = document.createElement('tr');
         tr.style.borderBottom = '1px solid var(--border-color)';
         
-        // If cost <= 700, highlight it as hidden from public web
-        const isHidden = cost <= 700;
-        const visibilityWarning = isHidden ? 
-            `<span style="color: #ff3b30; font-size: 0.75rem; display: block; font-weight: normal; margin-top: 4px;"><i class="fa-solid fa-eye-slash"></i> Oculto al Público (costo <= $700)</span>` : 
-            `<span style="color: #34c759; font-size: 0.75rem; display: block; font-weight: normal; margin-top: 4px;"><i class="fa-solid fa-eye"></i> Visible en Web</span>`;
+        const isPublished = item.published !== false;
+        const visibilityWarning = isPublished ? 
+            `<span class="status-badge status-published" style="margin-top: 4px;"><i class="fa-solid fa-circle-check"></i> Publicado</span>` : 
+            `<span class="status-badge status-hidden" style="margin-top: 4px;"><i class="fa-solid fa-circle-xmark"></i> Oculto</span>`;
 
         tr.innerHTML = `
             <td style="padding: 16px 8px; font-family: monospace; font-weight: bold; color: var(--accent-blue);">${item.id}</td>
             <td style="padding: 16px 8px; font-weight: 500;">${item.brand}</td>
             <td style="padding: 16px 8px;" title="${item.name}">
                 <strong>${item.name.length > 40 ? item.name.substring(0, 40) + '...' : item.name}</strong>
-                ${visibilityWarning}
+                <div style="margin-top: 4px;">${visibilityWarning}</div>
             </td>
             <td style="padding: 16px 8px;">${typeBadge}</td>
             <td style="padding: 16px 8px; font-weight: bold; color: var(--text-muted);">U$S ${Math.round(cost).toLocaleString('es-AR')}</td>
@@ -172,6 +230,11 @@ function setupListeners() {
     saveProductBtn.addEventListener('click', handleSaveProduct);
     
     exportExcelBtn.addEventListener('click', handleExportExcel);
+    
+    const pricingForm = document.getElementById('global-pricing-form');
+    if (pricingForm) {
+        pricingForm.addEventListener('submit', handleSaveGlobalPricing);
+    }
 }
 
 // Modal Controllers
@@ -186,7 +249,8 @@ function openEditModal(product = null) {
         document.getElementById('edit-product-brand').value = product.brand;
         document.getElementById('edit-product-price').value = product.price_usd;
         document.getElementById('edit-product-category').value = product.category;
-        document.getElementById('edit-product-type').value = product.type || 'notebook';
+        document.getElementById('edit-product-custom-price').value = product.custom_price_usd || '';
+        document.getElementById('edit-product-published').checked = product.published !== false;
         document.getElementById('edit-product-cpu').value = product.specs.cpu;
         document.getElementById('edit-product-ram').value = product.specs.ram;
         document.getElementById('edit-product-ssd').value = product.specs.ssd;
@@ -205,6 +269,8 @@ function openEditModal(product = null) {
     } else {
         titleEl.innerHTML = `<i class="fa-solid fa-plus"></i> Agregar Nuevo Producto`;
         document.getElementById('edit-product-id').value = '';
+        document.getElementById('edit-product-custom-price').value = '';
+        document.getElementById('edit-product-published').checked = true;
         editImagePreview.style.display = 'none';
         editImagePlaceholder.style.display = 'block';
     }
@@ -229,7 +295,10 @@ async function handleSaveProduct(e) {
     const brand = document.getElementById('edit-product-brand').value;
     const price_usd = parseFloat(document.getElementById('edit-product-price').value);
     const category = document.getElementById('edit-product-category').value;
-    const type = document.getElementById('edit-product-type').value;
+    const custom_price_usd_val = document.getElementById('edit-product-custom-price').value;
+    const custom_price_usd = custom_price_usd_val ? parseFloat(custom_price_usd_val) : undefined;
+    const published = document.getElementById('edit-product-published').checked;
+    
     const cpu = document.getElementById('edit-product-cpu').value;
     const ram = document.getElementById('edit-product-ram').value;
     const ssd = document.getElementById('edit-product-ssd').value;
@@ -287,7 +356,9 @@ async function handleSaveProduct(e) {
         brand,
         price_usd,
         category,
-        type,
+        type: 'notebook',
+        custom_price_usd,
+        published,
         specs: { cpu, ram, ssd, screen, gpu, os },
         image: imagePath
     };
