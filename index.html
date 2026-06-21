@@ -61,11 +61,9 @@
                 
                 <!-- Central Navigation Menu (Geist Sans, text-base, text-foreground/90) -->
                 <nav class="main-nav">
-                    <a href="#hero" class="nav-link" id="nav-inicio-link">Inicio</a>
                     <a href="#catalog" class="nav-link" id="nav-catalog-link">Catálogo</a>
                     <a href="#nosotros" class="nav-link" id="nav-nosotros-link">Nosotros</a>
                     <a href="#advisor-anchor" class="nav-link" id="nav-advisor-link">Learning</a>
-                    <a href="#dashboard" class="nav-link" id="nav-dashboard-link">Dashboard</a>
                 </nav>
 
                 <div class="header-actions">
@@ -336,47 +334,7 @@
             </section>
         </div>
 
-        <!-- DASHBOARD VIEW CONTAINER -->
-        <div id="dashboard-view" class="view-section hidden-view" style="display: none;">
-            <section id="dashboard" class="catalog-section">
-                <div class="dashboard-header-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
-                    <h2 class="section-title" style="margin-bottom: 0;">Panel de Control Core</h2>
-                    <div style="display: flex; gap: 12px;">
-                        <button class="btn-admin" id="dashboard-add-product-btn">
-                            <i class="fa-solid fa-plus"></i> Agregar Producto
-                        </button>
-                        <button class="btn-admin" id="dashboard-export-excel-btn">
-                            <i class="fa-solid fa-file-excel"></i> Exportar a Excel
-                        </button>
-                    </div>
-                </div>
 
-                <!-- Dashboard Filter/Search -->
-                <div class="search-bar-container" style="margin-bottom: 2rem;">
-                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" id="dashboard-search" placeholder="Buscar por ID, marca, modelo o especificaciones...">
-                </div>
-
-                <!-- Admin Products Table -->
-                <div class="admin-table-wrapper" style="overflow-x: auto; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 18px; padding: 24px; backdrop-filter: blur(20px);">
-                    <table class="admin-table" style="width: 100%; border-collapse: collapse; text-align: left;">
-                        <thead>
-                            <tr style="border-bottom: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;">
-                                <th style="padding: 12px 8px;">ID</th>
-                                <th style="padding: 12px 8px;">Marca</th>
-                                <th style="padding: 12px 8px;">Modelo</th>
-                                <th style="padding: 12px 8px;">Categoría</th>
-                                <th style="padding: 12px 8px;">Costo USD</th>
-                                <th style="padding: 12px 8px; text-align: right;">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="dashboard-products-tbody">
-                            <!-- Loaded dynamically -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-        </div>
 
         <!-- Anchor for learning link -->
         <div id="advisor-anchor"></div>
@@ -396,7 +354,6 @@
                     <a href="#hero" id="footer-inicio-link">Inicio</a>
                     <a href="#catalog" id="footer-catalog-link">Catálogo</a>
                     <a href="#nosotros" id="footer-nosotros-link">Nosotros</a>
-                    <a href="#dashboard" id="footer-dashboard-link">Dashboard</a>
                 </div>
                 <div class="footer-contact">
                     <h4>Contacto & Ventas</h4>
@@ -493,105 +450,7 @@
             </div>
         </div>
 
-        <!-- DASHBOARD EDIT MODAL -->
-        <div id="dashboard-edit-modal" class="modal-overlay">
-            <div class="modal-content settings-modal-content" style="max-width: 600px;">
-                <div class="modal-header">
-                    <h2 id="edit-modal-title"><i class="fa-solid fa-pen-to-square"></i> Editar Producto</h2>
-                    <button class="modal-close" id="close-edit-modal-btn"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-                <div class="modal-body" style="max-height: 70vh; overflow-y: auto; padding-right: 10px;">
-                    <form id="edit-product-form">
-                        <input type="hidden" id="edit-product-id">
-                        
-                        <div class="input-group">
-                            <label for="edit-product-name">Nombre / Modelo Completo:</label>
-                            <input type="text" id="edit-product-name" required placeholder="Notebook Gamer HP Victus...">
-                        </div>
-                        
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                            <div class="input-group">
-                                <label for="edit-product-brand">Marca:</label>
-                                <input type="text" id="edit-product-brand" required placeholder="HP, Apple, ASUS...">
-                            </div>
-                            <div class="input-group">
-                                <label for="edit-product-price">Costo Proveedor (USD):</label>
-                                <input type="number" id="edit-product-price" step="0.01" required placeholder="789.00">
-                            </div>
-                        </div>
 
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                            <div class="input-group">
-                                <label for="edit-product-category">Categoría (Perfil):</label>
-                                <select id="edit-product-category" required style="width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); color: var(--text-primary); padding: 12px; border-radius: 12px; font-family: var(--font-body); outline: none;">
-                                    <option value="gaming" style="background:#0b0b0c;">Gaming</option>
-                                    <option value="productivity" style="background:#0b0b0c;">Productividad</option>
-                                    <option value="design" style="background:#0b0b0c;">Diseño</option>
-                                    <option value="office" style="background:#0b0b0c;">Oficina</option>
-                                </select>
-                            </div>
-                            <div class="input-group">
-                                <label for="edit-product-type">Tipo de Equipo:</label>
-                                <select id="edit-product-type" required style="width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); color: var(--text-primary); padding: 12px; border-radius: 12px; font-family: var(--font-body); outline: none;">
-                                    <option value="notebook" style="background:#0b0b0c;">Notebook</option>
-                                    <option value="desktop" style="background:#0b0b0c;">PC Escritorio</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <h3 class="filter-label" style="margin-top: 1.5rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Especificaciones Técnicas</h3>
-                        
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                            <div class="input-group">
-                                <label for="edit-product-cpu">CPU:</label>
-                                <input type="text" id="edit-product-cpu" required placeholder="AMD Ryzen 7 7445HS">
-                            </div>
-                            <div class="input-group">
-                                <label for="edit-product-ram">RAM:</label>
-                                <input type="text" id="edit-product-ram" required placeholder="16 GB DDR5">
-                            </div>
-                        </div>
-
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                            <div class="input-group">
-                                <label for="edit-product-ssd">SSD / Almacenamiento:</label>
-                                <input type="text" id="edit-product-ssd" required placeholder="512 GB NVMe SSD">
-                            </div>
-                            <div class="input-group">
-                                <label for="edit-product-screen">Pantalla / Gabinete:</label>
-                                <input type="text" id="edit-product-screen" required placeholder="15.6&quot; FHD IPS 144Hz">
-                            </div>
-                        </div>
-
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                            <div class="input-group">
-                                <label for="edit-product-gpu">GPU / Gráficos:</label>
-                                <input type="text" id="edit-product-gpu" required placeholder="RTX 4050 6GB">
-                            </div>
-                            <div class="input-group">
-                                <label for="edit-product-os">Sistema Operativo:</label>
-                                <input type="text" id="edit-product-os" required placeholder="Windows 11 Home">
-                            </div>
-                        </div>
-
-                        <h3 class="filter-label" style="margin-top: 1.5rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Imágenes</h3>
-                        
-                        <div class="input-group">
-                            <label>Imagen del Producto:</label>
-                            <input type="file" id="edit-product-file" accept="image/*" style="margin-bottom: 10px;">
-                            <div id="edit-product-image-preview-container" style="width: 120px; height: 120px; border: 1px dashed var(--border-color); border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: rgba(0,0,0,0.2);">
-                                <img id="edit-product-image-preview" src="" alt="Previsualización" style="max-width: 100%; max-height: 100%; object-fit: contain; display: none;">
-                                <span id="edit-product-image-placeholder" style="font-size: 0.8rem; color: var(--text-muted);">Sin Imagen</span>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" id="cancel-edit-modal-btn">Cancelar</button>
-                    <button class="btn btn-primary" id="save-product-btn">Guardar Cambios</button>
-                </div>
-            </div>
-        </div>
 
     </div>
 

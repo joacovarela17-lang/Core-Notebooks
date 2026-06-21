@@ -426,23 +426,12 @@ function renderFeaturedNotebooks() {
 function getFormattedPrice(priceUsd, isPlainText = false) {
     const cost = Number(priceUsd);
     const selling_usd = 1.20 * cost + 140;
-    const profit_usd = selling_usd - cost;
     
     if (currentCurrency === 'ARS') {
         const priceArs = selling_usd * blueRate;
-        const formattedArs = '$' + Math.round(priceArs).toLocaleString('es-AR') + ' ARS';
-        if (isPlainText) {
-            return formattedArs;
-        } else {
-            return `${formattedArs}<span class="profit-label"> (Ganancia: +$${Math.round(profit_usd)} USD)</span>`;
-        }
+        return '$' + Math.round(priceArs).toLocaleString('es-AR') + ' ARS';
     } else {
-        const formattedUsd = '$' + Math.round(selling_usd).toLocaleString('es-AR') + ' USD';
-        if (isPlainText) {
-            return formattedUsd;
-        } else {
-            return `${formattedUsd}<span class="profit-label"> (Ganancia: +$${Math.round(profit_usd)} USD)</span>`;
-        }
+        return '$' + Math.round(selling_usd).toLocaleString('es-AR') + ' USD';
     }
 }
 
@@ -1009,14 +998,6 @@ function switchView(viewName, scrollTargetId = null) {
                 }
             }, 400);
         }
-        if (dashboardView && !dashboardView.classList.contains('hidden-view')) {
-            dashboardView.classList.add('hidden-view');
-            setTimeout(() => {
-                if (dashboardView.classList.contains('hidden-view')) {
-                    dashboardView.style.display = 'none';
-                }
-            }, 400);
-        }
         
         if (scrollTargetId) {
             setTimeout(() => {
@@ -1043,43 +1024,7 @@ function switchView(viewName, scrollTargetId = null) {
                 }
             }, 400);
         }
-        if (dashboardView && !dashboardView.classList.contains('hidden-view')) {
-            dashboardView.classList.add('hidden-view');
-            setTimeout(() => {
-                if (dashboardView.classList.contains('hidden-view')) {
-                    dashboardView.style.display = 'none';
-                }
-            }, 400);
-        }
         
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (viewName === 'dashboard-view') {
-        const link = document.getElementById('nav-dashboard-link');
-        if (link) link.classList.add('active');
-        
-        if (dashboardView.classList.contains('hidden-view')) {
-            dashboardView.style.display = 'block';
-            dashboardView.offsetHeight; // force reflow
-            dashboardView.classList.remove('hidden-view');
-        }
-        if (!landingView.classList.contains('hidden-view')) {
-            landingView.classList.add('hidden-view');
-            setTimeout(() => {
-                if (landingView.classList.contains('hidden-view')) {
-                    landingView.style.display = 'none';
-                }
-            }, 400);
-        }
-        if (!catalogView.classList.contains('hidden-view')) {
-            catalogView.classList.add('hidden-view');
-            setTimeout(() => {
-                if (catalogView.classList.contains('hidden-view')) {
-                    catalogView.style.display = 'none';
-                }
-            }, 400);
-        }
-        
-        renderDashboard();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     
@@ -1088,273 +1033,6 @@ function switchView(viewName, scrollTargetId = null) {
     if (mainNav) {
         mainNav.classList.remove('mobile-visible');
     }
-}
-
-// Render Dashboard products table
-function renderDashboard() {
-    const tbody = document.getElementById('dashboard-products-tbody');
-    if (!tbody) return;
-    
-    const dashboardSearchPhrase = document.getElementById('dashboard-search')?.value.toLowerCase().trim() || '';
-    
-    const displayProducts = allNotebooks.filter(item => {
-        return dashboardSearchPhrase === '' ||
-            item.id.toLowerCase().includes(dashboardSearchPhrase) ||
-            item.name.toLowerCase().includes(dashboardSearchPhrase) ||
-            item.brand.toLowerCase().includes(dashboardSearchPhrase) ||
-            (item.specs && item.specs.cpu && item.specs.cpu.toLowerCase().includes(dashboardSearchPhrase)) ||
-            (item.specs && item.specs.ram && item.specs.ram.toLowerCase().includes(dashboardSearchPhrase));
-    });
-    
-    tbody.innerHTML = '';
-    
-    if (displayProducts.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 24px;">No se encontraron productos.</td></tr>`;
-        return;
-    }
-    
-    displayProducts.forEach(item => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td style="padding: 12px 8px; font-family: monospace; font-weight: bold; color: var(--accent-blue);">${item.id}</td>
-            <td style="padding: 12px 8px; font-weight: 500;">${item.brand}</td>
-            <td style="padding: 12px 8px;" title="${item.name}">${item.name.length > 50 ? item.name.substring(0, 50) + '...' : item.name}</td>
-            <td style="padding: 12px 8px;"><span class="card-category-badge" style="margin: 0; padding: 2px 8px; font-size: 0.7rem;">${item.category}</span></td>
-            <td style="padding: 12px 8px; font-weight: bold;">U$S ${item.price_usd}</td>
-            <td style="padding: 12px 8px; text-align: right; white-space: nowrap;">
-                <button class="btn-admin-action btn-edit-product" data-id="${item.id}"><i class="fa-solid fa-edit"></i> Editar</button>
-                <button class="btn-admin-action btn-delete btn-delete-product" data-id="${item.id}"><i class="fa-solid fa-trash"></i> Eliminar</button>
-            </td>
-        `;
-        tbody.appendChild(tr);
-    });
-    
-    // Bind action buttons
-    tbody.querySelectorAll('.btn-edit-product').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const id = btn.getAttribute('data-id');
-            const product = allNotebooks.find(p => p.id === id);
-            if (product) {
-                openEditModal(product);
-            }
-        });
-    });
-    
-    tbody.querySelectorAll('.btn-delete-product').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const id = btn.getAttribute('data-id');
-            if (confirm(`¿Estás seguro de que deseas eliminar el producto con ID ${id}?`)) {
-                deleteProduct(id);
-            }
-        });
-    });
-}
-
-// Edit/Add modal variables and logic
-const editModal = document.getElementById('dashboard-edit-modal');
-const closeEditModalBtn = document.getElementById('close-edit-modal-btn');
-const cancelEditModalBtn = document.getElementById('cancel-edit-modal-btn');
-const saveProductBtn = document.getElementById('save-product-btn');
-const editProductForm = document.getElementById('edit-product-form');
-const editProductFile = document.getElementById('edit-product-file');
-const editImagePreview = document.getElementById('edit-product-image-preview');
-const editImagePlaceholder = document.getElementById('edit-product-image-placeholder');
-
-function openEditModal(product = null) {
-    const titleEl = document.getElementById('edit-modal-title');
-    editProductForm.reset();
-    
-    if (product) {
-        titleEl.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> Editar Producto`;
-        document.getElementById('edit-product-id').value = product.id;
-        document.getElementById('edit-product-name').value = product.name;
-        document.getElementById('edit-product-brand').value = product.brand;
-        document.getElementById('edit-product-price').value = product.price_usd;
-        document.getElementById('edit-product-category').value = product.category;
-        document.getElementById('edit-product-type').value = product.type || 'notebook';
-        document.getElementById('edit-product-cpu').value = product.specs.cpu;
-        document.getElementById('edit-product-ram').value = product.specs.ram;
-        document.getElementById('edit-product-ssd').value = product.specs.ssd;
-        document.getElementById('edit-product-screen').value = product.specs.screen;
-        document.getElementById('edit-product-gpu').value = product.specs.gpu;
-        document.getElementById('edit-product-os').value = product.specs.os;
-        
-        if (product.image) {
-            editImagePreview.src = product.image;
-            editImagePreview.style.display = 'block';
-            editImagePlaceholder.style.display = 'none';
-        } else {
-            editImagePreview.style.display = 'none';
-            editImagePlaceholder.style.display = 'block';
-        }
-    } else {
-        titleEl.innerHTML = `<i class="fa-solid fa-plus"></i> Agregar Producto`;
-        document.getElementById('edit-product-id').value = '';
-        editImagePreview.style.display = 'none';
-        editImagePlaceholder.style.display = 'block';
-    }
-    
-    editModal.classList.add('modal-active');
-}
-
-function closeEditModal() {
-    editModal.classList.remove('modal-active');
-}
-
-closeEditModalBtn?.addEventListener('click', closeEditModal);
-cancelEditModalBtn?.addEventListener('click', closeEditModal);
-
-editProductFile?.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            editImagePreview.src = event.target.result;
-            editImagePreview.style.display = 'block';
-            editImagePlaceholder.style.display = 'none';
-        };
-        reader.readAsDataURL(file);
-    }
-});
-
-async function saveCatalog() {
-    try {
-        const response = await fetch('/api/save-catalog', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(allNotebooks)
-        });
-        if (!response.ok) throw new Error('API save error');
-        const res = await response.json();
-        return res.success;
-    } catch (e) {
-        console.error("Error saving catalog:", e);
-        return false;
-    }
-}
-
-async function deleteProduct(id) {
-    allNotebooks = allNotebooks.filter(p => p.id !== id);
-    const success = await saveCatalog();
-    if (success) {
-        alert("Producto eliminado con éxito.");
-        renderDashboard();
-        renderNotebooks();
-        renderFeaturedNotebooks();
-    } else {
-        alert("Error al intentar guardar los cambios.");
-    }
-}
-
-saveProductBtn?.addEventListener('click', async (e) => {
-    e.preventDefault();
-    
-    if (!editProductForm.reportValidity()) {
-        return;
-    }
-    
-    const id = document.getElementById('edit-product-id').value;
-    const name = document.getElementById('edit-product-name').value;
-    const brand = document.getElementById('edit-product-brand').value;
-    const price_usd = parseFloat(document.getElementById('edit-product-price').value);
-    const category = document.getElementById('edit-product-category').value;
-    const type = document.getElementById('edit-product-type').value;
-    const cpu = document.getElementById('edit-product-cpu').value;
-    const ram = document.getElementById('edit-product-ram').value;
-    const ssd = document.getElementById('edit-product-ssd').value;
-    const screen = document.getElementById('edit-product-screen').value;
-    const gpu = document.getElementById('edit-product-gpu').value;
-    const os = document.getElementById('edit-product-os').value;
-    
-    let imagePath = "";
-    
-    if (id) {
-        const existingProduct = allNotebooks.find(p => p.id === id);
-        if (existingProduct) {
-            imagePath = existingProduct.image;
-        }
-    }
-    
-    const file = editProductFile.files[0];
-    if (file) {
-        const formData = new FormData();
-        formData.append('image', file);
-        
-        try {
-            const uploadResponse = await fetch('/api/upload-image', {
-                method: 'POST',
-                body: formData
-            });
-            if (!uploadResponse.ok) throw new Error('Image upload failed');
-            const uploadData = await uploadResponse.json();
-            imagePath = uploadData.image_path;
-        } catch (err) {
-            console.error("Error uploading image:", err);
-            alert("Error al subir la imagen. Se guardará sin actualizar imagen.");
-        }
-    }
-    
-    if (!imagePath) {
-        if (category === 'gaming') {
-            imagePath = "assets/gaming_laptop.png";
-        } else if (category === 'design' || brand === 'Apple') {
-            imagePath = "assets/macbook.png";
-        } else if (category === 'office') {
-            imagePath = "assets/office_laptop.png";
-        } else {
-            imagePath = "assets/creative_laptop.png";
-        }
-    }
-    
-    const productData = {
-        id: id || generateUniqueId(),
-        name,
-        brand,
-        price_usd,
-        category,
-        type,
-        specs: {
-            cpu,
-            ram,
-            ssd,
-            screen,
-            gpu,
-            os
-        },
-        image: imagePath
-    };
-    
-    if (id) {
-        const idx = allNotebooks.findIndex(p => p.id === id);
-        if (idx !== -1) {
-            allNotebooks[idx] = productData;
-        }
-    } else {
-        allNotebooks.push(productData);
-    }
-    
-    const success = await saveCatalog();
-    if (success) {
-        alert("Catálogo guardado con éxito.");
-        closeEditModal();
-        renderDashboard();
-        renderNotebooks();
-        renderFeaturedNotebooks();
-    } else {
-        alert("Ocurrió un error al guardar el producto.");
-    }
-});
-
-function generateUniqueId() {
-    let newId;
-    do {
-        newId = Math.floor(10000 + Math.random() * 90000).toString();
-    } while (allNotebooks.some(p => p.id === newId));
-    return newId;
 }
 
 function setupViewSwitching() {
@@ -1390,14 +1068,6 @@ function setupViewSwitching() {
         });
     }
 
-    const navDashboard = document.getElementById('nav-dashboard-link');
-    if (navDashboard) {
-        navDashboard.addEventListener('click', (e) => {
-            e.preventDefault();
-            switchView('dashboard-view');
-        });
-    }
-
     const footerInicio = document.getElementById('footer-inicio-link');
     if (footerInicio) {
         footerInicio.addEventListener('click', (e) => {
@@ -1419,49 +1089,6 @@ function setupViewSwitching() {
         footerNosotros.addEventListener('click', (e) => {
             e.preventDefault();
             switchView('landing-view', 'nosotros');
-        });
-    }
-
-    const footerDashboard = document.getElementById('footer-dashboard-link');
-    if (footerDashboard) {
-        footerDashboard.addEventListener('click', (e) => {
-            e.preventDefault();
-            switchView('dashboard-view');
-        });
-    }
-
-    const exportExcelBtn = document.getElementById('dashboard-export-excel-btn');
-    if (exportExcelBtn) {
-        exportExcelBtn.addEventListener('click', async () => {
-            try {
-                const response = await fetch('/api/export-excel', {
-                    method: 'POST'
-                });
-                if (!response.ok) throw new Error('API Excel export error');
-                const data = await response.json();
-                if (data.success) {
-                    alert("¡Precios exportados a Excel con éxito! Podés encontrar 'precios_venta.xlsx' en la carpeta raíz.");
-                } else {
-                    alert("Ocurrió un error al exportar a Excel.");
-                }
-            } catch (e) {
-                console.error("Error exporting to Excel:", e);
-                alert("Error al conectar con la API de exportación.");
-            }
-        });
-    }
-    
-    const addProductBtn = document.getElementById('dashboard-add-product-btn');
-    if (addProductBtn) {
-        addProductBtn.addEventListener('click', () => {
-            openEditModal(null);
-        });
-    }
-
-    const dashboardSearch = document.getElementById('dashboard-search');
-    if (dashboardSearch) {
-        dashboardSearch.addEventListener('input', () => {
-            renderDashboard();
         });
     }
     
