@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Notebooks | Minimalist Premium Technology</title>
+    
+    <!-- Fontshare CDN: Imports General Sans (weights 400, 500, 600, 700) and Geist (weights 400, 500, 600, 700) -->
+    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=geist@400,500,600,700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- SECTION 1: CINEMATIC FULLSCREEN INTRO OVERLAY -->
+    <div id="intro-overlay" class="intro-active">
+        <!-- Fullscreen Video -->
+        <video id="intro-video" preload="auto" playsinline muted>
+            <source src="intro.mp4" type="video/mp4">
+        </video>
+
+        <!-- Intro Text Overlay (fades in cinematically on top of video) -->
+        <div id="intro-text-wrapper">
+            <p class="intro-subtext animate-sub">INGENIERÍA A TU SERVICIO</p>
+            <h1 class="intro-title animate-title">CORE NOTEBOOKS</h1>
+            <p class="intro-description animate-desc">Importación directa de tecnología premium</p>
+        </div>
+
+        <!-- 3D Laptop Fallback Animation (shown only if video fails) -->
+        <div id="laptop-fallback" class="laptop-3d" style="display: none;">
+            <div class="keyboard-base"></div>
+            <div class="lid-hinge">
+                <div class="screen-lid">
+                    <div class="screen-content">
+                        <div class="core-logo-glow">
+                            <i class="fa-solid fa-microchip logo-icon"></i>
+                            <span>CORE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button id="skip-intro-btn" class="skip-btn">Ingresar al sitio <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+
+    <!-- SECTION 2: MAIN SITE CONTAINER -->
+    <div id="app-container" class="app-hidden">
+        
+        <!-- HEADER / NAVIGATION -->
+        <header class="main-header">
+            <div class="nav-container">
+                <a href="#" class="brand-logo" id="logo-link">
+                    <i class="fa-solid fa-microchip"></i>
+                    <span>Core Notebooks</span>
+                </a>
+                
+                <!-- Central Navigation Menu (Geist Sans, text-base, text-foreground/90) -->
+                <nav class="main-nav">
+                    <a href="#hero" class="nav-link" id="nav-inicio-link">Inicio</a>
+                    <a href="#catalog" class="nav-link" id="nav-catalog-link">Catálogo</a>
+                    <a href="#nosotros" class="nav-link" id="nav-nosotros-link">Nosotros</a>
+                    <a href="#advisor-anchor" class="nav-link" id="nav-advisor-link">Learning</a>
+                    <a href="#dashboard" class="nav-link" id="nav-dashboard-link">Dashboard</a>
+                </nav>
+
+                <div class="header-actions">
+                    <!-- Live exchange rate display -->
+                    <div class="exchange-rate-badge" id="rate-badge" title="Cotización Dólar Blue (Live)">
+                        <span>Dólar Blue: </span>
+                        <strong id="blue-rate-value">Cargando...</strong>
+                    </div>
+
+                    <!-- Currency Switch Toggle (USD / ARS Blue) -->
+                    <div class="currency-switch-container">
+                        <span class="currency-label">USD</span>
+                        <label class="switch">
+                            <input type="checkbox" id="currency-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="currency-label highlight-ars">ARS</span>
+                    </div>
+
+                    <!-- Config Settings Button -->
+                    <button class="settings-btn" id="open-settings-btn" title="Configurar API Key">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+
+                    <!-- "Sign Up" button on the right (Geist Sans, text-base, font-normal) -->
+                    <button class="btn-signup" id="signup-btn">Sign Up</button>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" id="menu-toggle">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- LANDING VIEW CONTAINER -->
+        <div id="landing-view" class="view-section">
+            <!-- HERO SECTION -->
+            <section id="hero" class="hero-section">
+                <div class="hero-bg-glow"></div>
+                <div class="hero-content">
+                    <!-- Title Principal: General Sans, text-[230px], gradient effect -->
+                    <h1 class="hero-main-title">CORE.</h1>
+                    
+                    <!-- Subtext: Centered, Geist Sans, text-lg, leading-8, opacity-80, split in 2 lines -->
+                    <p class="hero-subtext-desc">
+                        The most powerful hardware ever deployed<br/>for engineering and development.
+                    </p>
+                    
+                    <!-- Action Button: Geist Sans, text-base, font-normal -->
+                    <div class="hero-ctas">
+                        <button class="btn-cta" id="hero-schedule-btn">Schedule a Consult</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SOCIAL PROOF / MARQUEE SECTION -->
+            <section class="social-proof-section">
+                <div class="social-proof-container">
+                    <!-- Left Intro Text: Geist Sans, text-sm, text-foreground/50, whitespace-nowrap, split in 2 lines -->
+                    <div class="social-proof-intro">
+                        Relied on by brands<br/>across the globe
+                    </div>
+                    
+                    <!-- Right Brand Marquee: Geist Sans, text-base, font-semibold -->
+                    <div class="brand-marquee-container">
+                        <div class="brand-marquee-track">
+                            <span class="brand-item">Vortex</span>
+                            <span class="brand-item">Nimbus</span>
+                            <span class="brand-item">Prysma</span>
+                            <span class="brand-item">Aero</span>
+                            <span class="brand-item">Apex</span>
+                            <span class="brand-item">Spectra</span>
+                            <span class="brand-item">Nova</span>
+                            <span class="brand-item">Aura</span>
+                            <!-- Repeat items to create endless scroll loop -->
+                            <span class="brand-item">Vortex</span>
+                            <span class="brand-item">Nimbus</span>
+                            <span class="brand-item">Prysma</span>
+                            <span class="brand-item">Aero</span>
+                            <span class="brand-item">Apex</span>
+                            <span class="brand-item">Spectra</span>
+                            <span class="brand-item">Nova</span>
+                            <span class="brand-item">Aura</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FEATURED PRODUCTS SECTION -->
+            <section id="featured-products" class="featured-section">
+                <div class="section-header">
+                    <span class="section-tag">Nuestras Recomendaciones</span>
+                    <h2 class="section-title">Equipos Destacados</h2>
+                    <p class="section-subtitle">Una selección de hardware de alta gama recomendado por ingenieros.</p>
+                </div>
+                <div id="featured-grid" class="products-grid">
+                    <!-- Rendered dynamically -->
+                </div>
+                <div class="featured-cta-container" style="display: flex; justify-content: center; margin-top: 3rem;">
+                    <button class="btn-cta" id="explore-catalog-btn">Explorar Catálogo Completo <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </section>
+
+            <!-- ABOUT US SECTION -->
+            <section id="nosotros" class="about-section">
+                <div class="about-bg-decoration"></div>
+                <div class="about-container">
+                    <div class="about-content">
+                        <span class="section-tag">¿Quiénes Somos?</span>
+                        <h2 class="section-title">Ingeniería que importa.</h2>
+                        <p class="about-text">
+                            Somos <strong>Core Notebooks</strong>, un proyecto fundado por dos estudiantes de ingeniería apasionados por el hardware y la tecnología. Cansados de los sobreprecios y la falta de información técnica clara en el mercado local, decidimos unir fuerzas para importar de forma directa equipos seleccionados de alta calidad.
+                        </p>
+                        <div class="founders-cards">
+                            <!-- Founder 1 -->
+                            <div class="founder-card">
+                                <div class="founder-avatar-placeholder">
+                                    <i class="fa-solid fa-user-tie"></i>
+                                </div>
+                                <div class="founder-info">
+                                    <h3>Felipe</h3>
+                                    <p class="founder-title">Co-Fundador</p>
+                                    <p class="founder-edu">Estudiante de Ingeniería en la <strong>UBA</strong></p>
+                                </div>
+                            </div>
+
+                            <!-- Founder 2 -->
+                            <div class="founder-card">
+                                <div class="founder-avatar-placeholder">
+                                    <i class="fa-solid fa-user-tie"></i>
+                                </div>
+                                <div class="founder-info">
+                                    <h3>Joaquín</h3>
+                                    <p class="founder-title">Co-Fundador</p>
+                                    <p class="founder-edu">Estudiante de Ingeniería en la <strong>UNSAM</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="about-value-prop">
+                            <i class="fa-solid fa-shield-halved"></i> Cada notebook que ingresa a nuestro catálogo es verificada técnicamente por nosotros antes de ser entregada, asegurando que recibas exactamente la potencia por la que pagás.
+                        </p>
+                    </div>
+                    <div class="about-graphic">
+                        <div class="glass-specs-box">
+                            <div class="specs-title"><i class="fa-solid fa-circle-check"></i> El Compromiso Core</div>
+                            <ul class="specs-list">
+                                <li><i class="fa-solid fa-microchip text-accent"></i> Importación directa sin intermediarios</li>
+                                <li><i class="fa-solid fa-calculator text-accent"></i> Precios claros en dólares y pesos blue</li>
+                                <li><i class="fa-solid fa-laptop text-accent"></i> Asesoramiento técnico real y personalizado</li>
+                                <li><i class="fa-solid fa-screwdriver-wrench text-accent"></i> Control de calidad de hardware individual</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- WARRANTY SECTION -->
+            <section id="warranty" class="warranty-section">
+                <div class="warranty-container">
+                    <div class="warranty-card-glass">
+                        <div class="warranty-badge-glow"></div>
+                        <div class="warranty-icon-box">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div class="warranty-content-box">
+                            <span class="section-tag">Compromiso de Confianza</span>
+                            <h2 class="section-title">Garantía Absoluta Core</h2>
+                            <p class="warranty-desc-text">
+                                Comprar tecnología importada no tiene por qué ser un riesgo. Todos nuestros equipos incluyen la <strong>garantía original de fábrica</strong>. Adicionalmente, realizamos un control de calidad individual de hardware y pruebas de estabilidad exhaustivas antes de cada entrega. Si surge algún inconveniente, contás con soporte técnico directo con nosotros y nuestra <strong>garantía de satisfacción de devolución de dinero de 10 días</strong>.
+                            </p>
+                            <div class="warranty-grid">
+                                <div class="w-item">
+                                    <div class="w-item-icon"><i class="fa-solid fa-file-shield"></i></div>
+                                    <div class="w-item-text">
+                                        <h4>Garantía Oficial</h4>
+                                        <p>Respaldo oficial del fabricante ante fallas mecánicas o de fábrica.</p>
+                                    </div>
+                                </div>
+                                <div class="w-item">
+                                    <div class="w-item-icon"><i class="fa-solid fa-user-shield"></i></div>
+                                    <div class="w-item-text">
+                                        <h4>Soporte Felipe y Joaquín</h4>
+                                        <p>Atención y soporte técnico directo con nosotros, sin intermediarios ni demoras.</p>
+                                    </div>
+                                </div>
+                                <div class="w-item">
+                                    <div class="w-item-icon"><i class="fa-solid fa-rotate-left"></i></div>
+                                    <div class="w-item-text">
+                                        <h4>10 Días de Prueba</h4>
+                                        <p>Probá la potencia de tu equipo sin compromisos. Si no te convence, te devolvemos el dinero.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- CATALOG VIEW CONTAINER -->
+        <div id="catalog-view" class="view-section hidden-view" style="display: none;">
+            <!-- CATALOG SECTION -->
+            <section id="catalog" class="catalog-section">
+                <div class="section-header">
+                    <span class="section-tag">Selección de Equipos</span>
+                    <h2 class="section-title">El Catálogo Core</h2>
+                    <p class="section-subtitle">Explorá nuestro stock disponible o realizá una búsqueda avanzada.</p>
+                </div>
+
+                <!-- Collapsible Filters Button -->
+                <div class="filter-toggle-container" style="display: flex; justify-content: center; margin-bottom: 2.5rem;">
+                    <button class="catalog-tab-btn" id="toggle-filters-btn">
+                        <i class="fa-solid fa-sliders"></i> Filtros Avanzados
+                    </button>
+                </div>
+
+                <!-- Filter Controls -->
+                <div class="filter-panel filter-panel-collapsed" id="catalog-filter-panel">
+                    <div class="search-bar-container">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="catalog-search" placeholder="Buscar por procesador, ram, modelo o tipo...">
+                    </div>
+
+                    <div class="filters-row">
+                        <!-- Brand Filter -->
+                        <div class="filter-group">
+                            <label class="filter-label">Marca</label>
+                            <div class="filter-buttons" id="brand-filters">
+                                <button class="filter-btn active" data-brand="all">Todas</button>
+                                <button class="filter-btn" data-brand="Apple">Apple</button>
+                                <button class="filter-btn" data-brand="ASUS">ASUS</button>
+                                <button class="filter-btn" data-brand="Lenovo">Lenovo</button>
+                                <button class="filter-btn" data-brand="HP">HP</button>
+                                <button class="filter-btn" data-brand="Dell">Dell</button>
+                                <button class="filter-btn" data-brand="Acer">Acer</button>
+                            </div>
+                        </div>
+
+                        <!-- Category Filter -->
+                        <div class="filter-group">
+                            <label class="filter-label">Uso / Perfil</label>
+                            <div class="filter-buttons" id="category-filters">
+                                <button class="filter-btn active" data-category="all">Todos</button>
+                                <button class="filter-btn" data-category="gaming" title="Gaming y Alto Rendimiento"><i class="fa-solid fa-gamepad"></i> Gaming</button>
+                                <button class="filter-btn" data-category="productivity" title="Programación, Ingeniería, Oficina"><i class="fa-solid fa-laptop-code"></i> Productividad</button>
+                                <button class="filter-btn" data-category="design" title="Edición de Video, Diseño Gráfico, MacBook"><i class="fa-solid fa-palette"></i> Diseño</button>
+                                <button class="filter-btn" data-category="office" title="Estudios, Hogar, Oficina Básica"><i class="fa-solid fa-briefcase"></i> Oficina</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filters-row flex-between">
+                        <!-- Price Range Slider -->
+                        <div class="filter-group price-slider-group">
+                            <label class="filter-label">Precio máximo: <span id="price-slider-value">$1000 USD</span></label>
+                            <input type="range" id="price-range" min="300" max="4500" step="100" value="4500">
+                        </div>
+
+                        <button id="reset-filters" class="reset-btn"><i class="fa-solid fa-arrow-rotate-left"></i> Limpiar filtros</button>
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div id="products-grid" class="products-grid">
+                    <div class="grid-placeholder">Cargando notebooks disponibles...</div>
+                </div>
+            </section>
+        </div>
+
+        <!-- DASHBOARD VIEW CONTAINER -->
+        <div id="dashboard-view" class="view-section hidden-view" style="display: none;">
+            <section id="dashboard" class="catalog-section">
+                <div class="dashboard-header-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
+                    <h2 class="section-title" style="margin-bottom: 0;">Panel de Control Core</h2>
+                    <div style="display: flex; gap: 12px;">
+                        <button class="btn-admin" id="dashboard-add-product-btn">
+                            <i class="fa-solid fa-plus"></i> Agregar Producto
+                        </button>
+                        <button class="btn-admin" id="dashboard-export-excel-btn">
+                            <i class="fa-solid fa-file-excel"></i> Exportar a Excel
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dashboard Filter/Search -->
+                <div class="search-bar-container" style="margin-bottom: 2rem;">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="dashboard-search" placeholder="Buscar por ID, marca, modelo o especificaciones...">
+                </div>
+
+                <!-- Admin Products Table -->
+                <div class="admin-table-wrapper" style="overflow-x: auto; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 18px; padding: 24px; backdrop-filter: blur(20px);">
+                    <table class="admin-table" style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                                <th style="padding: 12px 8px;">ID</th>
+                                <th style="padding: 12px 8px;">Marca</th>
+                                <th style="padding: 12px 8px;">Modelo</th>
+                                <th style="padding: 12px 8px;">Categoría</th>
+                                <th style="padding: 12px 8px;">Costo USD</th>
+                                <th style="padding: 12px 8px; text-align: right;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboard-products-tbody">
+                            <!-- Loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- Anchor for learning link -->
+        <div id="advisor-anchor"></div>
+
+        <!-- FOOTER -->
+        <footer class="main-footer">
+            <div class="footer-container">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fa-solid fa-microchip"></i>
+                        <span>Core Notebooks</span>
+                    </div>
+                    <p>Tecnología premium directa al usuario. Elegida por ingenieros.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navegación</h4>
+                    <a href="#hero" id="footer-inicio-link">Inicio</a>
+                    <a href="#catalog" id="footer-catalog-link">Catálogo</a>
+                    <a href="#nosotros" id="footer-nosotros-link">Nosotros</a>
+                    <a href="#dashboard" id="footer-dashboard-link">Dashboard</a>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contacto & Ventas</h4>
+                    <p><i class="fa-brands fa-whatsapp text-accent"></i> WhatsApp: +54 9 11 3456-7890</p>
+                    <p><i class="fa-solid fa-envelope text-accent"></i> ventas@corenotebooks.com</p>
+                    <p><i class="fa-solid fa-location-dot text-accent"></i> Buenos Aires, Argentina</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Core Notebooks. Todos los derechos reservados. Las especificaciones y precios están sujetos a variaciones del mercado.</p>
+            </div>
+        </footer>
+
+        <!-- GEMINI AI FLOATING WIDGET -->
+        <div id="ai-advisor-widget">
+            <!-- Floating Bubble -->
+            <button id="ai-bubble-trigger" class="ai-bubble" title="Preguntale a nuestro Asesor AI">
+                <div class="pulse-ring"></div>
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span class="bubble-tooltip">¿Buscás laptop? Ayuda AI</span>
+            </button>
+
+            <!-- Chat Panel Slide-out -->
+            <div id="ai-chat-panel" class="chat-panel-hidden">
+                <div class="chat-panel-header">
+                    <div class="ai-profile">
+                        <div class="ai-avatar">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <div class="ai-details">
+                            <h3>Asesor Core AI</h3>
+                            <span class="ai-status"><span class="status-dot"></span>Online (Gemini 1.5 Flash)</span>
+                        </div>
+                    </div>
+                    <button id="close-chat-btn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <div class="chat-messages" id="chat-messages-container">
+                    <div class="chat-msg ai-msg">
+                        <p>¡Hola! Soy tu <strong>Asesor Core AI</strong> de notebooks. 💻🧠</p>
+                        <p>Estoy conectado al catálogo de Core Notebooks para recomendarte el equipo exacto que necesitás. Contame: ¿para qué vas a usar la notebook (estudiar, gaming, diseño, oficina)? ¿Y cuál es tu presupuesto estimado?</p>
+                    </div>
+                </div>
+
+                <div class="chat-quick-replies">
+                    <button class="quick-reply-btn" data-reply="Busco una notebook barata para estudiar y oficina.">Estudiar/Oficina 📚</button>
+                    <button class="quick-reply-btn" data-reply="Necesito una notebook gamer con placa de video RTX.">Gaming 🎮</button>
+                    <button class="quick-reply-btn" data-reply="Busco algo potente para edición de video y diseño.">Diseño / Edición 🎨</button>
+                </div>
+
+                <div class="chat-input-area">
+                    <textarea id="chat-input" placeholder="Preguntame lo que quieras..." rows="1"></textarea>
+                    <button id="send-chat-btn" class="send-btn" disabled><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SETTINGS MODAL (Gemini API Key configuration) -->
+        <div id="settings-modal" class="modal-overlay">
+            <div class="modal-content settings-modal-content">
+                <div class="modal-header">
+                    <h2><i class="fa-solid fa-gear"></i> Configuración del Asesor AI</h2>
+                    <button class="modal-close" id="close-settings-btn"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+                    <p>Para habilitar el <strong>Asesor Core AI</strong> interactivo en esta computadora, es necesario ingresar tu API Key de Gemini (Google AI Studio). La key se guarda de forma segura únicamente en tu navegador (`localStorage`).</p>
+                    
+                    <div class="input-group">
+                        <label for="gemini-api-key">Gemini API Key:</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="gemini-api-key" placeholder="AIzaSy...">
+                            <button id="toggle-key-visibility" class="view-key-btn"><i class="fa-solid fa-eye"></i></button>
+                        </div>
+                        <span class="input-helper">¿No tenés una API Key? Podés obtener una gratis en <a href="https://aistudio.google.com/" target="_blank">Google AI Studio</a>.</span>
+                    </div>
+
+                    <div class="key-status-badge idel-status" id="key-status">
+                        <i class="fa-solid fa-circle-question"></i> API Key no configurada. El asesor AI funcionará con respuestas de simulación locales.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="clear-settings-btn">Borrar Key</button>
+                    <button class="btn btn-primary" id="save-settings-btn">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRODUCT DETAIL MODAL -->
+        <div id="detail-modal" class="modal-overlay">
+            <div class="modal-content detail-modal-content">
+                <div id="detail-modal-body">
+                    <!-- Loaded dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- DASHBOARD EDIT MODAL -->
+        <div id="dashboard-edit-modal" class="modal-overlay">
+            <div class="modal-content settings-modal-content" style="max-width: 600px;">
+                <div class="modal-header">
+                    <h2 id="edit-modal-title"><i class="fa-solid fa-pen-to-square"></i> Editar Producto</h2>
+                    <button class="modal-close" id="close-edit-modal-btn"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body" style="max-height: 70vh; overflow-y: auto; padding-right: 10px;">
+                    <form id="edit-product-form">
+                        <input type="hidden" id="edit-product-id">
+                        
+                        <div class="input-group">
+                            <label for="edit-product-name">Nombre / Modelo Completo:</label>
+                            <input type="text" id="edit-product-name" required placeholder="Notebook Gamer HP Victus...">
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div class="input-group">
+                                <label for="edit-product-brand">Marca:</label>
+                                <input type="text" id="edit-product-brand" required placeholder="HP, Apple, ASUS...">
+                            </div>
+                            <div class="input-group">
+                                <label for="edit-product-price">Costo Proveedor (USD):</label>
+                                <input type="number" id="edit-product-price" step="0.01" required placeholder="789.00">
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div class="input-group">
+                                <label for="edit-product-category">Categoría (Perfil):</label>
+                                <select id="edit-product-category" required style="width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); color: var(--text-primary); padding: 12px; border-radius: 12px; font-family: var(--font-body); outline: none;">
+                                    <option value="gaming" style="background:#0b0b0c;">Gaming</option>
+                                    <option value="productivity" style="background:#0b0b0c;">Productividad</option>
+                                    <option value="design" style="background:#0b0b0c;">Diseño</option>
+                                    <option value="office" style="background:#0b0b0c;">Oficina</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="edit-product-type">Tipo de Equipo:</label>
+                                <select id="edit-product-type" required style="width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); color: var(--text-primary); padding: 12px; border-radius: 12px; font-family: var(--font-body); outline: none;">
+                                    <option value="notebook" style="background:#0b0b0c;">Notebook</option>
+                                    <option value="desktop" style="background:#0b0b0c;">PC Escritorio</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <h3 class="filter-label" style="margin-top: 1.5rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Especificaciones Técnicas</h3>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div class="input-group">
+                                <label for="edit-product-cpu">CPU:</label>
+                                <input type="text" id="edit-product-cpu" required placeholder="AMD Ryzen 7 7445HS">
+                            </div>
+                            <div class="input-group">
+                                <label for="edit-product-ram">RAM:</label>
+                                <input type="text" id="edit-product-ram" required placeholder="16 GB DDR5">
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div class="input-group">
+                                <label for="edit-product-ssd">SSD / Almacenamiento:</label>
+                                <input type="text" id="edit-product-ssd" required placeholder="512 GB NVMe SSD">
+                            </div>
+                            <div class="input-group">
+                                <label for="edit-product-screen">Pantalla / Gabinete:</label>
+                                <input type="text" id="edit-product-screen" required placeholder="15.6&quot; FHD IPS 144Hz">
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div class="input-group">
+                                <label for="edit-product-gpu">GPU / Gráficos:</label>
+                                <input type="text" id="edit-product-gpu" required placeholder="RTX 4050 6GB">
+                            </div>
+                            <div class="input-group">
+                                <label for="edit-product-os">Sistema Operativo:</label>
+                                <input type="text" id="edit-product-os" required placeholder="Windows 11 Home">
+                            </div>
+                        </div>
+
+                        <h3 class="filter-label" style="margin-top: 1.5rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Imágenes</h3>
+                        
+                        <div class="input-group">
+                            <label>Imagen del Producto:</label>
+                            <input type="file" id="edit-product-file" accept="image/*" style="margin-bottom: 10px;">
+                            <div id="edit-product-image-preview-container" style="width: 120px; height: 120px; border: 1px dashed var(--border-color); border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: rgba(0,0,0,0.2);">
+                                <img id="edit-product-image-preview" src="" alt="Previsualización" style="max-width: 100%; max-height: 100%; object-fit: contain; display: none;">
+                                <span id="edit-product-image-placeholder" style="font-size: 0.8rem; color: var(--text-muted);">Sin Imagen</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="cancel-edit-modal-btn">Cancelar</button>
+                    <button class="btn btn-primary" id="save-product-btn">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Core App JS -->
+    <script src="app.js"></script>
+</body>
+</html>

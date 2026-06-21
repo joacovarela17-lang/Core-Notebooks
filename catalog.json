@@ -1,0 +1,937 @@
+[
+    {
+        "id": "57715",
+        "name": "Notebook Gamer HP Victus 15-FB3093DX AMD Ryzen 7 7445HS / 16GB RAM / 512GB SSD / GeForce RTX 4050 6GB / 15.6'' FHD 144Hz / Win11 - Gris",
+        "brand": "HP",
+        "price_usd": 789.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "AMD Ryzen 7 7445HS (hasta 4.7GHz)",
+            "ram": "16 GB DDR5 4800MHz",
+            "ssd": "512 GB NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4050 6GB GDDR6",
+            "screen": "15.6\" FHD (1920x1080) IPS, 144Hz",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "58120",
+        "name": "Notebook Gamer Acer Predator Helios Neo 16 PH16-71-72YG Intel Core i7-13700HX / 16GB RAM / 1TB SSD / GeForce RTX 4060 8GB / 16'' WQXGA 165Hz / Win11 - Negro",
+        "brand": "Acer",
+        "price_usd": 1249.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i7-13700HX (16 Cores, hasta 5.0GHz)",
+            "ram": "16 GB DDR5 4800MHz",
+            "ssd": "1 TB PCIe Gen4 NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4060 8GB GDDR6",
+            "screen": "16\" WQXGA (2560x1600) IPS, 165Hz",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "56990",
+        "name": "Notebook Gamer ASUS ROG Zephyrus G14 GA402XV AMD Ryzen 9 7940HS / 16GB RAM / 1TB SSD / GeForce RTX 4060 8GB / 14'' QHD+ 165Hz / Win11 - Blanco",
+        "brand": "ASUS",
+        "price_usd": 1499.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "AMD Ryzen 9 7940HS (8 Cores, hasta 5.2GHz)",
+            "ram": "16 GB DDR5 (8GB Onboard + 8GB SO-DIMM)",
+            "ssd": "1 TB PCIe Gen4 NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4060 8GB GDDR6",
+            "screen": "14\" ROG Nebula QHD+ (2560x1600) IPS, 165Hz",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "57880",
+        "name": "Notebook Gamer Lenovo Legion 5 16IRX9 Intel Core i7-14650HX / 16GB RAM / 1TB SSD / GeForce RTX 4070 8GB / 16'' WQXGA 165Hz / Win11 - Gris",
+        "brand": "Lenovo",
+        "price_usd": 1649.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i7-14650HX (16 Cores, hasta 5.2GHz)",
+            "ram": "16 GB DDR5 5600MHz",
+            "ssd": "1 TB PCIe Gen4 NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4070 8GB GDDR6",
+            "screen": "16\" WQXGA (2560x1600) IPS, 165Hz, G-Sync",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "58210",
+        "name": "Notebook Gamer Dell G15 5530 Intel Core i5-13450HX / 8GB RAM / 512GB SSD / GeForce RTX 3050 6GB / 15.6'' FHD 120Hz / Win11 - Gris",
+        "brand": "Dell",
+        "price_usd": 799.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i5-13450HX (10 Cores, hasta 4.6GHz)",
+            "ram": "8 GB DDR5 4800MHz",
+            "ssd": "512 GB PCIe Gen4 NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 3050 6GB GDDR6",
+            "screen": "15.6\" FHD (1920x1080) 120Hz",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "58710",
+        "name": "Notebook Gamer ASUS ROG Strix G16 G614JI Intel Core i9-13980HX / 16GB RAM / 1TB SSD / GeForce RTX 4070 8GB / 16'' FHD+ 165Hz / Win11 - Gris",
+        "brand": "ASUS",
+        "price_usd": 1849.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i9-13980HX (24 Cores, hasta 5.6GHz)",
+            "ram": "16 GB DDR5 4800MHz",
+            "ssd": "1 TB PCIe NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4070 8GB GDDR6",
+            "screen": "16\" WUXGA (1920x1200) IPS, 165Hz, G-Sync",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "58702",
+        "name": "Notebook Gamer ASUS TUF Gaming A15 FA506NC AMD Ryzen 5 7535HS / 8GB RAM / 512GB SSD / GeForce RTX 3050 4GB / 15.6'' FHD 144Hz / Win11 - Grafito",
+        "brand": "ASUS",
+        "price_usd": 729.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "AMD Ryzen 5 7535HS (6 Cores, hasta 4.5GHz)",
+            "ram": "8 GB DDR5 5600MHz",
+            "ssd": "512 GB PCIe NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 3050 4GB GDDR6",
+            "screen": "15.6\" FHD (1920x1080) IPS, 144Hz",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "58703",
+        "name": "Notebook Gamer Acer Nitro 5 AN515-58-57Y8 Intel Core i5-12500H / 16GB RAM / 512GB SSD / GeForce RTX 4050 6GB / 15.6'' FHD 144Hz / Win11 - Negro",
+        "brand": "Acer",
+        "price_usd": 899.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i5-12500H (12 Cores, hasta 4.5GHz)",
+            "ram": "16 GB DDR4 3200MHz",
+            "ssd": "512 GB PCIe NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4050 6GB GDDR6",
+            "screen": "15.6\" FHD (1920x1080) IPS, 144Hz",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "58704",
+        "name": "Notebook Gamer MSI Cyborg 15 A12VF Intel Core i7-12650H / 16GB RAM / 512GB SSD / GeForce RTX 4060 8GB / 15.6'' FHD 144Hz / Win11 - Negro Translúcido",
+        "brand": "MSI",
+        "price_usd": 1049.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i7-12650H (10 Cores, hasta 4.7GHz)",
+            "ram": "16 GB DDR5 4800MHz",
+            "ssd": "512 GB PCIe NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4060 8GB GDDR6",
+            "screen": "15.6\" FHD (1920x1080) IPS, 144Hz",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "58705",
+        "name": "Notebook Gamer HP Omen 16-WD0013DX Intel Core i7-13620H / 16GB RAM / 512GB SSD / GeForce RTX 4050 6GB / 16.1'' FHD 144Hz / Win11 - Negro",
+        "brand": "HP",
+        "price_usd": 1099.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i7-13620H (10 Cores, hasta 4.9GHz)",
+            "ram": "16 GB DDR5 5200MHz",
+            "ssd": "512 GB PCIe NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4050 6GB GDDR6",
+            "screen": "16.1\" FHD (1920x1080) IPS, 144Hz",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "59101",
+        "name": "Notebook Gamer MSI Pulse 16 AI C1VGKG Intel Core Ultra 9 185H / 16GB RAM / 1TB SSD / GeForce RTX 4070 8GB / 16'' QHD+ 240Hz / Win11 - Negro",
+        "brand": "MSI",
+        "price_usd": 1899.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core Ultra 9 185H (16 Cores, con NPU AI, hasta 5.1GHz)",
+            "ram": "16 GB DDR5 5600MHz",
+            "ssd": "1 TB PCIe Gen4 NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4070 8GB GDDR6",
+            "screen": "16\" QHD+ (2560x1600) IPS, 240Hz, 100% DCI-P3",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "59102",
+        "name": "Notebook Gamer Acer Nitro V 15 ANV15-51-739M Intel Core i7-13620H / 16GB RAM / 512GB SSD / GeForce RTX 4050 6GB / 15.6'' FHD 144Hz / Win11 - Negro",
+        "brand": "Acer",
+        "price_usd": 999.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i7-13620H (10 Cores, hasta 4.9GHz)",
+            "ram": "16 GB DDR5 5200MHz",
+            "ssd": "512 GB PCIe NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4050 6GB GDDR6",
+            "screen": "15.6\" FHD (1920x1080) IPS, 144Hz",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "59103",
+        "name": "Notebook Gamer Lenovo LOQ 15IRH8 Intel Core i5-13420H / 16GB RAM / 1TB SSD / GeForce RTX 4050 6GB / 15.6'' FHD 144Hz / Win11 - Gris",
+        "brand": "Lenovo",
+        "price_usd": 899.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i5-13420H (8 Cores, hasta 4.6GHz)",
+            "ram": "16 GB DDR5 5200MHz",
+            "ssd": "1 TB PCIe NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4050 6GB GDDR6",
+            "screen": "15.6\" FHD (1920x1080) IPS, 144Hz, G-Sync",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "59104",
+        "name": "Notebook Gamer Dell Alienware m16 R2 Intel Core Ultra 7 155H / 16GB RAM / 1TB SSD / GeForce RTX 4060 8GB / 16'' QHD+ 240Hz / Win11 - Gris",
+        "brand": "Dell",
+        "price_usd": 1699.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core Ultra 7 155H (16 Cores, con NPU AI, hasta 4.8GHz)",
+            "ram": "16 GB DDR5 5600MHz",
+            "ssd": "1 TB PCIe Gen4 NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4060 8GB GDDR6",
+            "screen": "16\" QHD+ (2560x1600) WVA, 240Hz, 100% sRGB",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "59105",
+        "name": "Notebook Gamer Razer Blade 14 AMD Ryzen 9 7940HS / 16GB RAM / 1TB SSD / GeForce RTX 4070 8GB / 14'' QHD+ 240Hz / Win11 - Negro",
+        "brand": "Razer",
+        "price_usd": 2199.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "AMD Ryzen 9 7940HS (8 Cores, hasta 5.2GHz)",
+            "ram": "16 GB DDR5 5600MHz",
+            "ssd": "1 TB PCIe Gen4 NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4070 8GB GDDR6",
+            "screen": "14\" QHD+ (2560x1600) IPS, 240Hz, 100% DCI-P3",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "59106",
+        "name": "Notebook Gamer HP Victus 16-R0085CL Intel Core i7-13700H / 32GB RAM / 1TB SSD / GeForce RTX 4060 8GB / 16.1'' FHD 144Hz / Win11 - Azul",
+        "brand": "HP",
+        "price_usd": 1299.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i7-13700H (14 Cores, hasta 5.0GHz)",
+            "ram": "32 GB DDR5 5200MHz",
+            "ssd": "1 TB PCIe NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4060 8GB GDDR6",
+            "screen": "16.1\" FHD (1920x1080) IPS, 144Hz",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "59107",
+        "name": "Notebook Gamer GIGABYTE G5 KF Intel Core i5-12500H / 8GB RAM / 512GB SSD / GeForce RTX 4060 8GB / 15.6'' FHD 144Hz / Win11 - Negro",
+        "brand": "GIGABYTE",
+        "price_usd": 869.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i5-12500H (12 Cores, hasta 4.5GHz)",
+            "ram": "8 GB DDR4 3200MHz",
+            "ssd": "512 GB PCIe NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4060 8GB GDDR6",
+            "screen": "15.6\" FHD (1920x1080) IPS, 144Hz",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "59108",
+        "name": "Notebook Gamer Lenovo Legion Pro 7 16IRX8H Intel Core i9-13900HX / 32GB RAM / 2TB SSD / GeForce RTX 4090 16GB / 16'' WQXGA 240Hz / Win11 - Onyx Grey",
+        "brand": "Lenovo",
+        "price_usd": 3299.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i9-13900HX (24 Cores, hasta 5.4GHz)",
+            "ram": "32 GB DDR5 5600MHz",
+            "ssd": "2 TB PCIe Gen4 NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4090 16GB GDDR6 (175W)",
+            "screen": "16\" WQXGA (2560x1600) IPS, 240Hz, G-Sync, 500 nits",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "59109",
+        "name": "Notebook Gamer ASUS TUF Gaming F15 FX507VU Intel Core i7-13620H / 16GB RAM / 512GB SSD / GeForce RTX 4050 6GB / 15.6'' FHD 144Hz / Win11 - Gris",
+        "brand": "ASUS",
+        "price_usd": 979.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i7-13620H (10 Cores, hasta 4.9GHz)",
+            "ram": "16 GB DDR5 4800MHz",
+            "ssd": "512 GB PCIe NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4050 6GB GDDR6",
+            "screen": "15.6\" FHD (1920x1080) IPS, 144Hz, G-Sync",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "59110",
+        "name": "Notebook Gamer MSI Katana 15 B13VGK Intel Core i7-13620H / 16GB RAM / 1TB SSD / GeForce RTX 4070 8GB / 15.6'' FHD 144Hz / Win11 - Negro",
+        "brand": "MSI",
+        "price_usd": 1399.0,
+        "category": "gaming",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i7-13620H (10 Cores, hasta 4.9GHz)",
+            "ram": "16 GB DDR5 5200MHz",
+            "ssd": "1 TB PCIe NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4070 8GB GDDR6",
+            "screen": "15.6\" FHD (1920x1080) IPS, 144Hz",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "57875",
+        "name": "Notebook Dell Precision 7780 Intel Core i9 13950HX Tela Full HD 17.3\" / 128GB de RAM / 4TB SSD / GeForce RTX5000A 16GB / Win11 Pro - Cinza (Inglês)",
+        "brand": "Dell",
+        "price_usd": 4379.0,
+        "category": "productivity",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i9-13950HX vPro (24 Cores, hasta 5.5GHz)",
+            "ram": "128 GB DDR5 4800MHz",
+            "ssd": "4 TB PCIe NVMe SSD",
+            "gpu": "NVIDIA RTX 5000 Ada Generation 16GB GDDR6",
+            "screen": "17.3\" FHD (1920x1080) IPS, Antirreflejo",
+            "os": "Windows 11 Pro"
+        },
+        "image": "https://cdn.visaovip.com/img/prod/notebook-dell-precision-7780-intel-core-i9-13950hx-tela-full-hd-173-128gb-de-ram-4tb-ssd-geforce-rtx5000a-16gb-win11-pro-cinza-ingles/57875/732559.jpg"
+    },
+    {
+        "id": "58150",
+        "name": "Notebook HP Omnibook X Flip AI 14-KB0023DX Intel Core Ultra 7 / 16GB RAM / 1TB SSD / Intel Arc Graphics / 14'' Touch 2.8K / Win11 - Gris",
+        "brand": "HP",
+        "price_usd": 1199.0,
+        "category": "productivity",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core Ultra 7 155H (16 Cores, con NPU AI)",
+            "ram": "16 GB LPDDR5x",
+            "ssd": "1 TB PCIe Gen4 NVMe SSD",
+            "gpu": "Intel Arc Graphics (integrada)",
+            "screen": "14\" Touch 2.8K (2880x1800) OLED",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/creative_laptop.png"
+    },
+    {
+        "id": "57990",
+        "name": "Notebook ASUS Zenbook 14 OLED UX3405MA Intel Core Ultra 9 185H / 32GB RAM / 1TB SSD / Intel Arc Graphics / 14'' 3K OLED 120Hz / Win11 - Azul",
+        "brand": "ASUS",
+        "price_usd": 1399.0,
+        "category": "productivity",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core Ultra 9 185H (16 Cores, hasta 5.1GHz, NPU AI)",
+            "ram": "32 GB LPDDR5x Onboard",
+            "ssd": "1 TB PCIe Gen4 NVMe SSD",
+            "gpu": "Intel Arc Graphics (integrada)",
+            "screen": "14\" 3K (2880x1800) OLED, 120Hz, 100% DCI-P3",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/creative_laptop.png"
+    },
+    {
+        "id": "58050",
+        "name": "Notebook Lenovo ThinkPad E14 Gen 5 Intel Core i7-1355U / 16GB RAM / 512GB SSD / Intel Iris Xe / 14'' FHD+ IPS / Win11 Pro - Negro",
+        "brand": "Lenovo",
+        "price_usd": 949.0,
+        "category": "productivity",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i7-1355U (10 Cores, hasta 5.0GHz)",
+            "ram": "16 GB DDR4 (8GB Soldada + 8GB SO-DIMM)",
+            "ssd": "512 GB PCIe Gen4 NVMe SSD",
+            "gpu": "Intel Iris Xe Graphics (integrada)",
+            "screen": "14\" WUXGA (1920x1200) IPS, Antirreflejo",
+            "os": "Windows 11 Pro"
+        },
+        "image": "assets/office_laptop.png"
+    },
+    {
+        "id": "58706",
+        "name": "Notebook Lenovo Yoga Book 9 13IRU8 Dual Screen Touch Intel Core i7-1355U / 16GB RAM / 1TB SSD / Intel Iris Xe / Dual 13.3'' 2.8K OLED / Win11 - Gris",
+        "brand": "Lenovo",
+        "price_usd": 1899.0,
+        "category": "productivity",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i7-1355U (10 Cores, hasta 5.0GHz)",
+            "ram": "16 GB LPDDR5x",
+            "ssd": "1 TB PCIe NVMe SSD",
+            "gpu": "Intel Iris Xe Graphics (integrada)",
+            "screen": "Dual 13.3\" 2.8K (2880x1800) OLED Touch, con teclado Bluetooth",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/creative_laptop.png"
+    },
+    {
+        "id": "58707",
+        "name": "Notebook Dell Inspiron 16 5630 Intel Core i7-1360P / 16GB RAM / 1TB SSD / GeForce RTX 2050 4GB / 16'' FHD+ IPS Touch / Win11 - Plateado",
+        "brand": "Dell",
+        "price_usd": 899.0,
+        "category": "productivity",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i7-1360P (12 Cores, hasta 5.0GHz)",
+            "ram": "16 GB LPDDR5 4800MHz",
+            "ssd": "1 TB PCIe NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 2050 4GB GDDR6",
+            "screen": "16\" FHD+ (1920x1200) IPS Touch",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/creative_laptop.png"
+    },
+    {
+        "id": "58708",
+        "name": "Notebook Gigabyte Aero 16 OLED BSF Intel Core i7-13700H / 16GB RAM / 1TB SSD / GeForce RTX 4070 8GB / 16'' 4K OLED / Win11 - Plateado",
+        "brand": "GIGABYTE",
+        "price_usd": 1799.0,
+        "category": "design",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i7-13700H (14 Cores, hasta 5.0GHz)",
+            "ram": "16 GB DDR5 4800MHz",
+            "ssd": "1 TB PCIe NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4070 8GB GDDR6",
+            "screen": "16\" UHD+ (3840x2400) OLED, Pantone Validated",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/creative_laptop.png"
+    },
+    {
+        "id": "57001",
+        "name": "Apple MacBook Air 13.6'' Apple M2 Chip (8-Core CPU / 8-Core GPU) / 8GB RAM / 256GB SSD / Retina Display - Gris Espacial",
+        "brand": "Apple",
+        "price_usd": 999.0,
+        "category": "design",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Apple M2 Chip (8-Core CPU)",
+            "ram": "8 GB Memoria Unificada",
+            "ssd": "256 GB SSD ultrarrápido",
+            "gpu": "8-Core GPU, 16-Core Neural Engine",
+            "screen": "13.6\" Liquid Retina Display con tecnología True Tone",
+            "os": "macOS Sonoma"
+        },
+        "image": "assets/macbook.png"
+    },
+    {
+        "id": "57002",
+        "name": "Apple MacBook Air 13.6'' Apple M3 Chip (8-Core CPU / 10-Core GPU) / 16GB RAM / 512GB SSD / Retina Display - Medianoche",
+        "brand": "Apple",
+        "price_usd": 1399.0,
+        "category": "design",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Apple M3 Chip (8-Core CPU)",
+            "ram": "16 GB Memoria Unificada",
+            "ssd": "512 GB SSD ultrarrápido",
+            "gpu": "10-Core GPU, Ray Tracing acelerado por hardware",
+            "screen": "13.6\" Liquid Retina Display con tecnología True Tone",
+            "os": "macOS Sonoma"
+        },
+        "image": "assets/macbook.png"
+    },
+    {
+        "id": "57003",
+        "name": "Apple MacBook Pro 14.2'' Apple M3 Pro Chip (11-Core CPU / 14-Core GPU) / 18GB RAM / 512GB SSD / Liquid Retina XDR - Negro Espacial",
+        "brand": "Apple",
+        "price_usd": 1999.0,
+        "category": "design",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Apple M3 Pro Chip (11-Core CPU)",
+            "ram": "18 GB Memoria Unificada",
+            "ssd": "512 GB SSD ultrarrápido",
+            "gpu": "14-Core GPU, 16-Core Neural Engine",
+            "screen": "14.2\" Liquid Retina XDR (3024x1964) 120Hz ProMotion",
+            "os": "macOS Sonoma"
+        },
+        "image": "assets/macbook.png"
+    },
+    {
+        "id": "58709",
+        "name": "Apple MacBook Pro 16.2'' Apple M3 Max Chip (14-Core CPU / 30-Core GPU) / 36GB RAM / 1TB SSD / Liquid Retina XDR - Negro Espacial",
+        "brand": "Apple",
+        "price_usd": 3299.0,
+        "category": "design",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Apple M3 Max Chip (14-Core CPU)",
+            "ram": "36 GB Memoria Unificada",
+            "ssd": "1 TB SSD ultrarrápido",
+            "gpu": "30-Core GPU, Ray Tracing acelerado por hardware",
+            "screen": "16.2\" Liquid Retina XDR (3456x2234) 120Hz ProMotion",
+            "os": "macOS Sonoma"
+        },
+        "image": "assets/macbook.png"
+    },
+    {
+        "id": "59201",
+        "name": "Notebook Dell XPS 15 9530 Intel Core i7-13700H / 32GB RAM / 1TB SSD / GeForce RTX 4050 6GB / 15.6'' OLED Touch / Win11 - Plateado",
+        "brand": "Dell",
+        "price_usd": 1999.0,
+        "category": "productivity",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i7-13700H (14 Cores, hasta 5.0GHz)",
+            "ram": "32 GB DDR5 4800MHz",
+            "ssd": "1 TB PCIe NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4050 6GB GDDR6",
+            "screen": "15.6\" OLED 3.5K (3456x2160) InfinityEdge Touch",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/creative_laptop.png"
+    },
+    {
+        "id": "59202",
+        "name": "Notebook HP Spectre x360 16-F2013DX Intel Core i7-1360P / 16GB RAM / 2TB SSD / Intel Arc A370M 4GB / 16'' 3K Touch / Win11 - Negro",
+        "brand": "HP",
+        "price_usd": 1499.0,
+        "category": "productivity",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i7-1360P (12 Cores, hasta 5.0GHz)",
+            "ram": "16 GB DDR5 4800MHz",
+            "ssd": "2 TB PCIe NVMe SSD",
+            "gpu": "Intel Arc A370M 4GB GDDR6",
+            "screen": "16\" 3K (3072x1920) IPS Touch, Convertible 2-en-1",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/creative_laptop.png"
+    },
+    {
+        "id": "59203",
+        "name": "Notebook ASUS Zenbook Pro 14 Duo OLED UX8402VV Intel Core i9-13900H / 32GB RAM / 1TB SSD / GeForce RTX 4060 8GB / 14.5'' OLED 120Hz / Win11 - Negro",
+        "brand": "ASUS",
+        "price_usd": 2199.0,
+        "category": "design",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i9-13900H (14 Cores, hasta 5.4GHz)",
+            "ram": "32 GB LPDDR5 Onboard",
+            "ssd": "1 TB PCIe Gen4 NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4060 8GB GDDR6",
+            "screen": "14.5\" 2.8K (2880x1800) OLED 120Hz + ScreenPad Plus (segunda pantalla)",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/creative_laptop.png"
+    },
+    {
+        "id": "59204",
+        "name": "Notebook Lenovo ThinkPad P16s Gen 2 Intel Core i7-1360P / 32GB RAM / 1TB SSD / NVIDIA RTX A500 4GB / 16'' WUXGA IPS / Win11 Pro - Negro",
+        "brand": "Lenovo",
+        "price_usd": 1549.0,
+        "category": "productivity",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i7-1360P (12 Cores, hasta 5.0GHz)",
+            "ram": "32 GB LPDDR5 4800MHz",
+            "ssd": "1 TB PCIe Gen4 NVMe SSD",
+            "gpu": "NVIDIA RTX A500 4GB GDDR6 (Workstation)",
+            "screen": "16\" WUXGA (1920x1200) IPS, Antirreflejo",
+            "os": "Windows 11 Pro"
+        },
+        "image": "assets/creative_laptop.png"
+    },
+    {
+        "id": "57717",
+        "name": "Notebook Acer GadGet E10 ETBook Yoga CWI557 Intel Core i3 1315U Tela Touch 2.5K 13.4\" / 8GB de RAM / 256GB SSD / Win11 - Cinza (Espanhol / Português)",
+        "brand": "Acer",
+        "price_usd": 469.0,
+        "category": "office",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i3-1315U (6 Cores, hasta 4.5GHz)",
+            "ram": "8 GB LPDDR5",
+            "ssd": "256 GB NVMe SSD",
+            "gpu": "Intel UHD Graphics (integrada)",
+            "screen": "13.4\" Touch 2.5K (2560x1600) IPS",
+            "os": "Windows 11 Home"
+        },
+        "image": "https://cdn.visaovip.com/img/prod/notebook-acer-gadget-e10-etbook-yoga-cwi557-intel-core-i3-1315u-tela-touch-25k-134-8gb-de-ram-256gb-ssd-win11-cinza-espanhol-portugues/57717/732685.jpg"
+    },
+    {
+        "id": "58300",
+        "name": "Notebook ASUS Vivobook Go 15 E1504FA AMD Ryzen 5 7520U / 8GB RAM / 512GB SSD / AMD Radeon 610M / 15.6'' FHD / Win11 - Negro",
+        "brand": "ASUS",
+        "price_usd": 419.0,
+        "category": "office",
+        "type": "notebook",
+        "specs": {
+            "cpu": "AMD Ryzen 5 7520U (4 Cores, hasta 4.3GHz)",
+            "ram": "8 GB LPDDR5 Onboard",
+            "ssd": "512 GB PCIe NVMe SSD",
+            "gpu": "AMD Radeon 610M Graphics (integrada)",
+            "screen": "15.6\" FHD (1920x1080) LED Slim",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/office_laptop.png"
+    },
+    {
+        "id": "58280",
+        "name": "Notebook Lenovo IdeaPad 1 15IRU7 Intel Core i5-1335U / 8GB RAM / 512GB SSD / Intel Iris Xe / 15.6'' Touch FHD / Win11 - Gris",
+        "brand": "Lenovo",
+        "price_usd": 519.0,
+        "category": "office",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i5-1335U (10 Cores, hasta 4.6GHz)",
+            "ram": "8 GB DDR4 3200MHz",
+            "ssd": "512 GB PCIe NVMe SSD",
+            "gpu": "Intel Iris Xe Graphics (integrada)",
+            "screen": "15.6\" Touch FHD (1920x1080) IPS",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/office_laptop.png"
+    },
+    {
+        "id": "58350",
+        "name": "Notebook HP 15-FD0025WM AMD Ryzen 5 7520U / 8GB RAM / 1TB SSD / AMD Radeon 610M / 15.6'' Touch FHD / Win11 - Azul",
+        "brand": "HP",
+        "price_usd": 479.0,
+        "category": "office",
+        "type": "notebook",
+        "specs": {
+            "cpu": "AMD Ryzen 5 7520U (4 Cores, hasta 4.3GHz)",
+            "ram": "8 GB LPDDR5",
+            "ssd": "1 TB PCIe NVMe SSD",
+            "gpu": "AMD Radeon 610M Graphics (integrada)",
+            "screen": "15.6\" Touch FHD (1920x1080) IPS",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/office_laptop.png"
+    },
+    {
+        "id": "58410",
+        "name": "Notebook Dell Inspiron 15 3520 Intel Core i5-1235U / 16GB RAM / 512GB SSD / Intel Iris Xe / 15.6'' FHD 120Hz / Win11 - Carbon",
+        "brand": "Dell",
+        "price_usd": 549.0,
+        "category": "office",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i5-1235U (10 Cores, hasta 4.4GHz)",
+            "ram": "16 GB DDR4 3200MHz",
+            "ssd": "512 GB PCIe NVMe SSD",
+            "gpu": "Intel Iris Xe Graphics (integrada)",
+            "screen": "15.6\" FHD (1920x1080) IPS, 120Hz",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/office_laptop.png"
+    },
+    {
+        "id": "58490",
+        "name": "Notebook ASUS Vivobook 16 M1605YA AMD Ryzen 7 7730U / 16GB RAM / 1TB SSD / AMD Radeon Graphics / 16'' WUXGA IPS / Win11 - Plata",
+        "brand": "ASUS",
+        "price_usd": 679.0,
+        "category": "productivity",
+        "type": "notebook",
+        "specs": {
+            "cpu": "AMD Ryzen 7 7730U (8 Cores, hasta 4.5GHz)",
+            "ram": "16 GB DDR4 (8GB Soldada + 8GB SO-DIMM)",
+            "ssd": "1 TB PCIe NVMe SSD",
+            "gpu": "AMD Radeon Graphics (integrada)",
+            "screen": "16\" WUXGA (1920x1200) IPS 16:10",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/office_laptop.png"
+    },
+    {
+        "id": "58510",
+        "name": "Notebook Acer Aspire 5 A515-58P Intel Core i5-1335U / 8GB RAM / 512GB SSD / Intel UHD Graphics / 15.6'' FHD / Win11 - Gris",
+        "brand": "Acer",
+        "price_usd": 489.0,
+        "category": "office",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i5-1335U (10 Cores, hasta 4.6GHz)",
+            "ram": "8 GB LPDDR5",
+            "ssd": "512 GB PCIe NVMe SSD",
+            "gpu": "Intel UHD Graphics (integrada)",
+            "screen": "15.6\" FHD (1920x1080) IPS",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/office_laptop.png"
+    },
+    {
+        "id": "58620",
+        "name": "Notebook HP 15-FC0015TG AMD Ryzen 3 7320U / 8GB RAM / 256GB SSD / AMD Radeon 610M / 15.6'' HD / Win11 S - Gris",
+        "brand": "HP",
+        "price_usd": 329.0,
+        "category": "office",
+        "type": "notebook",
+        "specs": {
+            "cpu": "AMD Ryzen 3 7320U (4 Cores, hasta 4.1GHz)",
+            "ram": "8 GB LPDDR5 Onboard",
+            "ssd": "256 GB PCIe NVMe SSD",
+            "gpu": "AMD Radeon 610M Graphics (integrada)",
+            "screen": "15.6\" HD (1366x768) micro-edge",
+            "os": "Windows 11 en Modo S"
+        },
+        "image": "assets/office_laptop.png"
+    },
+    {
+        "id": "58701",
+        "name": "Notebook Lenovo IdeaPad Slim 3 15IAN8 Intel Core i3-N305 / 8GB RAM / 256GB SSD / 15.6'' FHD / Win11 - Azul",
+        "brand": "Lenovo",
+        "price_usd": 369.0,
+        "category": "office",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i3-N305 (8 Cores, hasta 3.8GHz)",
+            "ram": "8 GB LPDDR5",
+            "ssd": "256 GB PCIe NVMe SSD",
+            "gpu": "Intel UHD Graphics (integrada)",
+            "screen": "15.6\" FHD (1920x1080) IPS",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/office_laptop.png"
+    },
+    {
+        "id": "59301",
+        "name": "Notebook Dell Inspiron 15 3530 Intel Core i3-1305U / 8GB RAM / 512GB SSD / Intel UHD Graphics / 15.6'' Touch FHD / Win11 - Carbon",
+        "brand": "Dell",
+        "price_usd": 459.0,
+        "category": "office",
+        "type": "notebook",
+        "specs": {
+            "cpu": "Intel Core i3-1305U (5 Cores, hasta 4.5GHz)",
+            "ram": "8 GB DDR4 3200MHz",
+            "ssd": "512 GB PCIe NVMe SSD",
+            "gpu": "Intel UHD Graphics (integrada)",
+            "screen": "15.6\" Touch FHD (1920x1080) IPS",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/office_laptop.png"
+    },
+    {
+        "id": "54911",
+        "name": "PC Gamer Intel Core i7-14700F / 32GB RAM DDR5 / 1TB SSD NVMe / GeForce RTX 4070 12GB / WaterCooler 240mm - Negro",
+        "brand": "ASUS",
+        "price_usd": 1699.0,
+        "category": "gaming",
+        "type": "desktop",
+        "specs": {
+            "cpu": "Intel Core i7-14700F (20 Cores, hasta 5.4GHz)",
+            "ram": "32 GB DDR5 5600MHz (Dual Channel)",
+            "ssd": "1 TB PCIe Gen4 NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4070 12GB GDDR6X",
+            "screen": "Gabinete Gamer Vidrio Templado + 4 Fans RGB (Gabinete de Escritorio)",
+            "os": "Windows 11 Home (Listo para usar)"
+        },
+        "image": "https://cdn.visaovip.com/img/prod/pc-montado-gamer-intel-core-i7-6700-de-34ghz-16gb-de-ram-256gb-ssd-geforce-gtx-750ti-4gb-preto/54911/727599.jpg"
+    },
+    {
+        "id": "54912",
+        "name": "PC Gamer AMD Ryzen 5 7600X / 16GB RAM DDR5 / 1TB SSD NVMe / GeForce RTX 4060 Ti 8GB - Negro",
+        "brand": "ASUS",
+        "price_usd": 1149.0,
+        "category": "gaming",
+        "type": "desktop",
+        "specs": {
+            "cpu": "AMD Ryzen 5 7600X (6 Cores, hasta 5.3GHz)",
+            "ram": "16 GB DDR5 5200MHz",
+            "ssd": "1 TB PCIe NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4060 Ti 8GB GDDR6",
+            "screen": "Gabinete Gamer Vidrio Templado + Fuente 650W 80+",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "54913",
+        "name": "PC de Escritorio Core i5-13400 / 16GB RAM / 480GB SSD / Intel UHD Graphics - Gabinete Slim Negro",
+        "brand": "Lenovo",
+        "price_usd": 489.0,
+        "category": "office",
+        "type": "desktop",
+        "specs": {
+            "cpu": "Intel Core i5-13400 (10 Cores, hasta 4.6GHz)",
+            "ram": "16 GB DDR4 3200MHz",
+            "ssd": "480 GB SATA SSD",
+            "gpu": "Intel UHD Graphics 730 (integrada)",
+            "screen": "Gabinete Slim Corporativo + Fuente 300W",
+            "os": "Windows 11 Pro"
+        },
+        "image": "assets/office_laptop.png"
+    },
+    {
+        "id": "54914",
+        "name": "PC Gamer Extrema Intel Core i9-14900K / 64GB RAM DDR5 / 2TB SSD / GeForce RTX 4090 24GB / WaterCooler 360mm - Blanco",
+        "brand": "ASUS",
+        "price_usd": 3799.0,
+        "category": "gaming",
+        "type": "desktop",
+        "specs": {
+            "cpu": "Intel Core i9-14900K (24 Cores, hasta 6.0GHz)",
+            "ram": "64 GB DDR5 6000MHz Corsair RGB",
+            "ssd": "2 TB PCIe Gen4 NVMe Kingston Renegade",
+            "gpu": "NVIDIA GeForce RTX 4090 24GB GDDR6X (ASUS ROG Strix)",
+            "screen": "Gabinete ASUS ROG Hyperion + Fuente 1000W 80+ Gold",
+            "os": "Windows 11 Pro"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "54915",
+        "name": "PC de Oficina AMD Ryzen 5 4600G / 16GB RAM / 480GB SSD / Radeon Graphics - Kit Gabinete/Teclado/Mouse",
+        "brand": "Acer",
+        "price_usd": 359.0,
+        "category": "office",
+        "type": "desktop",
+        "specs": {
+            "cpu": "AMD Ryzen 5 4600G (6 Cores, hasta 4.2GHz)",
+            "ram": "16 GB DDR4 3200MHz",
+            "ssd": "480 GB SATA SSD",
+            "gpu": "AMD Radeon Graphics (integrada, Vega 7)",
+            "screen": "Gabinete Standard + Kit Periféricos (Teclado, Mouse, Parlantes)",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/office_laptop.png"
+    },
+    {
+        "id": "54916",
+        "name": "PC Workstation AMD Ryzen 9 7900X / 64GB RAM DDR5 / 2TB SSD / GeForce RTX 4080 Super 16GB - Negro",
+        "brand": "Dell",
+        "price_usd": 2499.0,
+        "category": "productivity",
+        "type": "desktop",
+        "specs": {
+            "cpu": "AMD Ryzen 9 7900X (12 Cores, hasta 5.6GHz)",
+            "ram": "64 GB DDR5 5600MHz",
+            "ssd": "2 TB PCIe Gen4 NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4080 Super 16GB GDDR6X",
+            "screen": "Gabinete Workstation Aislado Acústico + Fuente 850W Gold",
+            "os": "Windows 11 Pro"
+        },
+        "image": "assets/creative_laptop.png"
+    },
+    {
+        "id": "54917",
+        "name": "PC Gamer AMD Ryzen 5 5600G / 16GB RAM / 500GB SSD / Radeon Graphics - Gabinete RGB Vidrio Templado",
+        "brand": "HP",
+        "price_usd": 429.0,
+        "category": "gaming",
+        "type": "desktop",
+        "specs": {
+            "cpu": "AMD Ryzen 5 5600G (6 Cores, hasta 4.4GHz)",
+            "ram": "16 GB DDR4 3200MHz Dual Channel",
+            "ssd": "500 GB PCIe NVMe SSD",
+            "gpu": "AMD Radeon Graphics (integrada, Vega 7 potente)",
+            "screen": "Gabinete Gamer Vidrio Templado + 3 Fans RGB",
+            "os": "Windows 11 Home (Upgrade GPU Dedicada disponible)"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "54918",
+        "name": "PC Gamer Ryzen 7 5700X / 32GB RAM / 1TB SSD NVMe / GeForce RTX 4060 8GB / Cooler Tower - Negro",
+        "brand": "ASUS",
+        "price_usd": 999.0,
+        "category": "gaming",
+        "type": "desktop",
+        "specs": {
+            "cpu": "AMD Ryzen 7 5700X (8 Cores, hasta 4.6GHz)",
+            "ram": "32 GB DDR4 3200MHz",
+            "ssd": "1 TB PCIe NVMe SSD",
+            "gpu": "NVIDIA GeForce RTX 4060 8GB GDDR6",
+            "screen": "Gabinete Gamer Vidrio Templado + Fuente 600W 80+",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/gaming_laptop.png"
+    },
+    {
+        "id": "54919",
+        "name": "Apple Mac Mini Apple M3 Chip (8-Core CPU / 10-Core GPU) / 16GB RAM / 512GB SSD - Plateado",
+        "brand": "Apple",
+        "price_usd": 899.0,
+        "category": "productivity",
+        "type": "desktop",
+        "specs": {
+            "cpu": "Apple M3 Chip (8-Core CPU)",
+            "ram": "16 GB Memoria Unificada",
+            "ssd": "512 GB SSD ultrarrápido",
+            "gpu": "10-Core GPU, 16-Core Neural Engine",
+            "screen": "Gabinete Mac Mini Ultra-compacto de aluminio (Requiere Monitor)",
+            "os": "macOS Sonoma"
+        },
+        "image": "assets/macbook.png"
+    },
+    {
+        "id": "54920",
+        "name": "PC de Oficina Intel Core i3-12100 / 8GB RAM / 240GB SSD / Intel UHD Graphics - Slim Kit",
+        "brand": "Dell",
+        "price_usd": 299.0,
+        "category": "office",
+        "type": "desktop",
+        "specs": {
+            "cpu": "Intel Core i3-12100 (4 Cores, hasta 4.3GHz)",
+            "ram": "8 GB DDR4 3200MHz",
+            "ssd": "240 GB SATA SSD",
+            "gpu": "Intel UHD Graphics 730",
+            "screen": "Gabinete Slim Corporativo + Fuente 250W",
+            "os": "Windows 11 Home"
+        },
+        "image": "assets/office_laptop.png"
+    }
+]
