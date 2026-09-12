@@ -1,18 +1,17 @@
 /* ==========================================================================
    CORE NOTEBOOKS - APPLICATION LOGIC
-   Features: Intro playback/fallback, Dolar Blue API, Dynamic Catalog Filtering,
-             WhatsApp Integration, and Gemini AI Recommender with local fallback.
+   Features: Dolar Blue API, Dynamic Catalog Filtering,
+             WhatsApp Integration, and a catalog-based buying guide.
    ========================================================================== */
 
 // Global configuration and state
-const WSP_NUMBER = "5491134567890"; // Argentine sales WhatsApp number
+const WSP_NUMBER = "543757685727"; // Argentine sales WhatsApp number
 let pricingConfig = { markup_factor: 1.20, fixed_fee_usd: 140 }; // Loaded dynamically from pricing_config.json
 let allNotebooks = [];
 let filteredNotebooks = [];
-let blueRate = 1250; // Fallback rate in case API fails
+let blueRate = 0; // ARS is enabled only after a verified exchange-rate response.
 let currentCurrency = 'USD'; // 'USD' or 'ARS'
-let geminiApiKey = localStorage.getItem('gemini_api_key') || '';
-let chatHistory = []; // Stores the Gemini chat log for conversational context
+
 
 // UI State Filters
 let activeBrand = 'all';
@@ -21,11 +20,6 @@ let maxPrice = 4500;
 let searchPhrase = '';
 
 // DOM Elements
-const introOverlay = document.getElementById('intro-overlay');
-const introVideo = document.getElementById('intro-video');
-const laptopFallback = document.getElementById('laptop-fallback');
-const skipIntroBtn = document.getElementById('skip-intro-btn');
-const appContainer = document.getElementById('app-container');
 
 // App Header rates & actions
 const rateBadge = document.getElementById('rate-badge');
@@ -51,16 +45,8 @@ const resetFiltersBtn = document.getElementById('reset-filters');
 const productsGrid = document.getElementById('products-grid');
 
 // Modals
-const settingsModal = document.getElementById('settings-modal');
 const detailModal = document.getElementById('detail-modal');
 const detailModalBody = document.getElementById('detail-modal-body');
-const openSettingsBtn = document.getElementById('open-settings-btn');
-const closeSettingsBtn = document.getElementById('close-settings-btn');
-const saveSettingsBtn = document.getElementById('save-settings-btn');
-const clearSettingsBtn = document.getElementById('clear-settings-btn');
-const geminiApiKeyInput = document.getElementById('gemini-api-key');
-const toggleKeyVisibilityBtn = document.getElementById('toggle-key-visibility');
-const keyStatusBadge = document.getElementById('key-status');
 
 // AI Chatbot
 const aiBubbleTrigger = document.getElementById('ai-bubble-trigger');
@@ -73,109 +59,21 @@ const sendChatBtn = document.getElementById('send-chat-btn');
 /* ==========================================================================
    1. CINEMATIC FULLSCREEN INTRO OVERLAY
    ========================================================================== */
-function initIntro() {
-    let introEnded = false;
-
-    // Transition function to main site
-    const enterSite = () => {
-        if (introEnded) return;
-        introEnded = true;
-        
-        // Stop video if playing
-        if (introVideo) {
-            introVideo.pause();
-        }
-
-        // Add class to fade out intro screen
-        introOverlay.classList.add('intro-fading');
-        
-        // Remove from DOM layout after animation completes (1s)
-        setTimeout(() => {
-            introOverlay.style.display = 'none';
-            appContainer.classList.remove('app-hidden');
-            appContainer.classList.add('app-visible');
-            
-            // Adjust body scrolling
-            document.body.style.overflowY = 'auto';
-            
-            // Initialize main site processes
-            fetchExchangeRate();
-            loadCatalog();
-            updateSettingsUI();
-        }, 1000);
-    };
-
-    // Prevent scrolling while intro is active
-    document.body.style.overflowY = 'hidden';
-
-    // Set fallback timer (in case video is slow, missing, or blocked)
-    const fallbackTimeout = setTimeout(() => {
-        console.log("Fullscreen Video timeout or not loaded. Playing 3D CSS fallback...");
-        // Show fallback CSS laptop
-        laptopFallback.style.display = 'flex';
-        introVideo.style.display = 'none';
-        
-        // Add open class to kickstart CSS animation
-        setTimeout(() => {
-            laptopFallback.classList.add('open-lid');
-        }, 100);
-
-        // Transition site after animation finishes (approx 3s)
-        setTimeout(() => {
-            enterSite();
-        }, 3500);
-    }, 4500);
-
-    // Try to play video if it can load
-    introVideo.addEventListener('play', () => {
-        clearTimeout(fallbackTimeout);
-        laptopFallback.style.display = 'none';
-        introVideo.style.display = 'block';
-    });
-
-    // Handle timeupdate for precise text animations and video cut
-    const introTextWrapper = document.getElementById('intro-text-wrapper');
-    introVideo.addEventListener('timeupdate', () => {
-        if (introVideo.currentTime >= 5.2) {
-            if (introTextWrapper) {
-                introTextWrapper.classList.add('text-visible');
-            }
-        }
-        if (introVideo.currentTime >= 6.0) {
-            introVideo.pause();
-            enterSite();
-        }
-    });
-
-    // When video completes, enter site
-    introVideo.addEventListener('ended', enterSite);
-
-    // Skip button click
-    skipIntroBtn.addEventListener('click', enterSite);
-
-    // Automatically trigger video play
-    introVideo.play().catch(err => {
-        console.log("Autoplay blocked or video missing. Fallback timer active.");
-    });
-}
-
 /* ==========================================================================
    2. DOLAR BLUE API & EXCHANGE RATES
    ========================================================================== */
 async function fetchExchangeRate() {
     try {
-        const response = await fetch('https://dolarapi.com/v1/dolares/blue');
-        if (!response.ok) throw new Error('API error');
+        const response = await fetch('https://dolarapi.com/v1/dolares/blue', { signal: AbortSignal.timeout(8000) });
+        if (!response.ok) throw new Error('Cotización no disponible');
         const data = await response.json();
-        
-        if (data && data.venta) {
-            blueRate = Math.round(data.venta);
-            console.log(`Live Dolar Blue Rate loaded: $${blueRate} ARS`);
-            blueRateValue.innerText = `$${blueRate.toLocaleString('es-AR')}`;
-        }
+        if (!Number.isFinite(Number(data.venta)) || Number(data.venta) <= 0) throw new Error('Cotización inválida');
+        blueRate = Math.round(Number(data.venta));
+        blueRateValue.innerText = '$' + blueRate.toLocaleString('es-AR');
+        currencyToggle.disabled = false;
     } catch (err) {
-        console.warn("Could not fetch live Dolar Blue, using fallback rate:", blueRate);
-        blueRateValue.innerText = `$${blueRate.toLocaleString('es-AR')} (Predeterminado)`;
+        blueRateValue.innerText = 'No disponible · precios en USD';
+        currencyToggle.disabled = true;
     }
 }
 
@@ -266,11 +164,12 @@ async function loadCatalog() {
         renderNotebooks();
         renderFeaturedNotebooks();
         setupSpotlightEffects();
-        setupToggleFilters();
-        setupViewSwitching();
+
     } catch (err) {
         console.error("Error loading catalog database:", err);
-        productsGrid.innerHTML = `<div class="grid-placeholder">Error al cargar la base de datos de notebooks. Por favor reintentá en unos momentos.</div>`;
+        const errorMessage = `<div class="grid-placeholder">No pudimos cargar el catálogo. Recargá la página o consultanos por WhatsApp.</div>`;
+        productsGrid.innerHTML = errorMessage;
+        document.getElementById("featured-grid").innerHTML = errorMessage;
     }
 }
 
@@ -333,7 +232,7 @@ function renderNotebooks() {
         card.innerHTML = `
             ${typeBadge}
             <div class="product-image-wrapper">
-                <img src="${laptop.image}" alt="${getCleanName(laptop.name, laptop.brand)}" onerror="this.src='https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=400&q=80'">
+                <img src="${laptop.image}" alt="${getCleanName(laptop.name, laptop.brand)}" loading="lazy" onerror="this.onerror=null;this.src='assets/office_laptop.png'">
             </div>
             <div class="product-details">
                 <span class="product-brand">${laptop.brand}</span>
@@ -393,7 +292,7 @@ function renderFeaturedNotebooks() {
         card.innerHTML = `
             ${typeBadge}
             <div class="product-image-wrapper">
-                <img src="${laptop.image}" alt="${getCleanName(laptop.name, laptop.brand)}" onerror="this.src='https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=400&q=80'">
+                <img src="${laptop.image}" alt="${getCleanName(laptop.name, laptop.brand)}" loading="lazy" onerror="this.onerror=null;this.src='assets/office_laptop.png'">
             </div>
             <div class="product-details">
                 <span class="product-brand">${laptop.brand}</span>
@@ -428,13 +327,6 @@ function renderFeaturedNotebooks() {
     // Setup spotlight for new cards
     setupSpotlightEffects();
     
-    // Wire explore catalog button
-    const exploreBtn = document.getElementById('explore-catalog-btn');
-    if (exploreBtn) {
-        exploreBtn.addEventListener('click', () => {
-            switchView('catalog-view');
-        });
-    }
 }
 
 function getCleanName(fullName, brand) {
@@ -613,7 +505,7 @@ function openDetailModal(laptop) {
                         <span class="price-label">Precio Final</span>
                         <span class="detail-price-value">${displayPrice}</span>
                     </div>
-                    <a href="${wspUrl}" target="_blank" class="btn btn-wsp">
+                    <a href="${wspUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-wsp">
                         <i class="fa-brands fa-whatsapp"></i> Comprar por WhatsApp
                     </a>
                 </div>
@@ -635,96 +527,23 @@ detailModal.addEventListener('click', (e) => {
 });
 
 /* ==========================================================================
-   5. MODALS & NAV TRIGGERS (Sign Up, Learning, Consult)
+   5. CONTACT AND CATALOG NAVIGATION
    ========================================================================== */
-openSettingsBtn.addEventListener('click', () => {
-    openSettingsModal();
+if (signupBtn) signupBtn.addEventListener('click', contactSales);
+if (heroScheduleBtn) heroScheduleBtn.addEventListener('click', contactSales);
+document.getElementById('hero-catalog-btn').addEventListener('click', () => switchView('catalog-view'));
+document.getElementById('explore-catalog-btn').addEventListener('click', () => switchView('catalog-view'));
+if (navAdvisorLink) navAdvisorLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (aiChatPanel.classList.contains('chat-panel-hidden')) toggleChatPanel();
 });
-
-if (signupBtn) {
-    signupBtn.addEventListener('click', () => {
-        openSettingsModal();
-    });
-}
-
-if (navAdvisorLink) {
-    navAdvisorLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        document.getElementById('advisor-anchor').scrollIntoView({ behavior: 'smooth' });
-        if (aiChatPanel.classList.contains('chat-panel-hidden')) {
-            toggleChatPanel();
-        }
-    });
-}
-
-if (heroScheduleBtn) {
-    heroScheduleBtn.addEventListener('click', () => {
-        const message = "¡Hola Core Notebooks! Quisiera coordinar una asesoría técnica personalizada para elegir mi próxima notebook.";
-        const wspUrl = `https://wa.me/${WSP_NUMBER}?text=${encodeURIComponent(message)}`;
-        window.open(wspUrl, '_blank');
-    });
-}
-
-function openSettingsModal() {
-    geminiApiKeyInput.value = geminiApiKey;
-    settingsModal.classList.add('modal-active');
-    updateSettingsUI();
-}
-
-closeSettingsBtn.addEventListener('click', () => {
-    settingsModal.classList.remove('modal-active');
-});
-
-settingsModal.addEventListener('click', (e) => {
-    if (e.target === settingsModal) {
-        settingsModal.classList.remove('modal-active');
-    }
-});
-
-toggleKeyVisibilityBtn.addEventListener('click', () => {
-    const isPassword = geminiApiKeyInput.type === 'password';
-    geminiApiKeyInput.type = isPassword ? 'text' : 'password';
-    toggleKeyVisibilityBtn.querySelector('i').className = isPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
-});
-
-saveSettingsBtn.addEventListener('click', () => {
-    const keyVal = geminiApiKeyInput.value.trim();
-    if (keyVal === '') {
-        localStorage.removeItem('gemini_api_key');
-        geminiApiKey = '';
-    } else {
-        localStorage.setItem('gemini_api_key', keyVal);
-        geminiApiKey = keyVal;
-    }
-    
-    updateSettingsUI();
-    addSystemChatMessage("API Key de Gemini configurada. El asesor AI ahora tiene inteligencia de lenguaje generativo.");
-    
-    setTimeout(() => {
-        settingsModal.classList.remove('modal-active');
-    }, 500);
-});
-
-clearSettingsBtn.addEventListener('click', () => {
-    localStorage.removeItem('gemini_api_key');
-    geminiApiKey = '';
-    geminiApiKeyInput.value = '';
-    updateSettingsUI();
-    addSystemChatMessage("API Key de Gemini borrada. El asesor AI funcionará en modo de simulación local.");
-});
-
-function updateSettingsUI() {
-    if (geminiApiKey && geminiApiKey.startsWith('AIzaSy')) {
-        keyStatusBadge.className = "key-status-badge active-status";
-        keyStatusBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i> API Key configurada y activa. El Asesor AI inteligente está encendido.`;
-    } else {
-        keyStatusBadge.className = "key-status-badge idel-status";
-        keyStatusBadge.innerHTML = `<i class="fa-solid fa-circle-question"></i> API Key no configurada. El asesor AI funcionará con respuestas de simulación locales.`;
-    }
+function contactSales() {
+    const message = '¡Hola Core Notebooks! Quisiera asesoramiento para elegir una notebook y consultar disponibilidad.';
+    window.open('https://wa.me/' + WSP_NUMBER + '?text=' + encodeURIComponent(message), '_blank', 'noopener,noreferrer');
 }
 
 /* ==========================================================================
-   6. GEMINI AI ADVISOR CHAT ENGINE
+   6. CATALOG GUIDE
    ========================================================================== */
 function toggleChatPanel() {
     aiChatPanel.classList.toggle('chat-panel-hidden');
@@ -815,7 +634,7 @@ function sendUserMessage() {
 }
 
 function formatMarkdown(text) {
-    let html = text
+    let html = String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
         .replace(/`([^`]+)`/g, '<code>$1</code>')
@@ -848,175 +667,24 @@ function addClickableLaptopsToChat(element) {
 }
 
 async function generateAdvisorReply(userText) {
-    chatHistory.push({ role: 'user', content: userText });
-    if (geminiApiKey && geminiApiKey.startsWith('AIzaSy')) {
-        return await fetchGeminiReply(userText);
-    } else {
-        return generateMockReply(userText);
-    }
+    const text = userText.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    let category;
+    if (/gaming|gamer|jugar|rtx|placa/.test(text)) category = 'gaming';
+    else if (/disen|edicion|editar|video|foto|mac/.test(text)) category = 'design';
+    else if (/program|desarroll|ingenier|codigo/.test(text)) category = 'productivity';
+    else if (/estudi|oficina|barat|econom|hogar/.test(text)) category = 'office';
+    if (!category) return 'Esta guía automática filtra por tipo de uso. Elegí estudio/oficina, gaming, programación o diseño. Para una recomendación según tu presupuesto, consultanos por WhatsApp.';
+    const visible = allNotebooks.filter(item => item.published !== false && item.type !== 'desktop');
+    const sellingPrice = item => Number(item.custom_price_usd) > 0 ? Number(item.custom_price_usd) : pricingConfig.markup_factor * item.price_usd + pricingConfig.fixed_fee_usd;
+    const items = visible.filter(item => category === 'office' ? /office|productivity/.test(item.category) : item.category === category)
+        .sort((a, b) => sellingPrice(a) - sellingPrice(b)).slice(0, 3);
+    if (!items.length) return 'No encontré opciones publicadas para ese uso en este momento. Podés explorar el catálogo o consultarnos por WhatsApp.';
+    return 'Estas son opciones del catálogo para ese uso, ordenadas por precio. Confirmá disponibilidad antes de comprar:\n\n' + items.map((item, i) =>
+        (i + 1) + '. **' + getCleanName(item.name, item.brand) + '** (Código: ' + item.id + ')\n' +
+        getFormattedPrice(item.price_usd, item.custom_price_usd) + ' · ' + item.specs.ram + '\n'
+    ).join('\n') + '\nHacé clic en el código para ver los detalles. Esta selección no evalúa requisitos de programas específicos ni un presupuesto máximo.';
 }
 
-async function fetchGeminiReply(userText) {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`;
-    
-    const catalogSubset = allNotebooks
-        .filter(l => l.price_usd > 700)
-        .map(l => {
-            const cost = l.price_usd;
-            const selling_usd = 1.20 * cost + 140;
-            const selling_ars = selling_usd * blueRate;
-            return {
-                id: l.id,
-                name: l.name,
-                brand: l.brand,
-                price_usd: Math.round(selling_usd),
-                price_ars_blue: Math.round(selling_ars),
-                category: l.category,
-                type: l.type,
-                cpu: l.specs.cpu,
-                ram: l.specs.ram,
-                ssd: l.specs.ssd,
-                gpu: l.specs.gpu
-            };
-        });
-    
-    const systemInstruction = `
-Eres el "Asesor Core AI", un consultor de tecnología experto para la tienda "Core Notebooks".
-Core Notebooks es una tienda fundada por dos estudiantes de ingeniería: Felipe (estudia en la UBA) y Joaquín (estudia en la UNSAM), quienes importan notebooks seleccionadas y computadoras de alta calidad directamente de Paraguay y las testean rigurosamente antes de venderlas en Argentina.
-
-TU OBJETIVO:
-Recomendar notebooks o PCs de escritorio de nuestro catálogo basándote en la actividad del usuario y su presupuesto. Sé honesto, amigable y muy técnico.
-
-REGLAS DE RESPUESTA:
-1. Recomienda ÚNICAMENTE computadoras y notebooks que figuren en el catálogo adjunto. Menciona siempre su código de 5 dígitos (ej. "54911" para PCs o "57715" para notebooks) porque el sistema los hace interactivos en el chat.
-2. Da los precios de los productos tanto en Dólares (USD) como convertidos a Pesos Argentinos (ARS) usando la tasa del Dólar Blue que te proveemos abajo.
-3. Explica brevemente por qué el procesador, la memoria RAM o la placa de video de esa notebook/PC se ajusta a lo que busca el usuario (programación, juegos, estudio, diseño).
-4. Termina sugiriendo que, si deciden comprar, hagan clic en el producto en el catálogo y utilicen el botón de "Comprar por WhatsApp" para contactar a Felipe y Joaquín directamente.
-5. Responde con un tono tecnológico, claro y profesional. Usa listas y negritas en markdown.
-`;
-
-    const contextData = `
-Cátalogo de Notebooks y PCs Core (Stock Real):
-${JSON.stringify(catalogSubset, null, 2)}
-
-Tasa de conversión Dólar Blue: 1 USD = $${blueRate} ARS.
-`;
-
-    const contents = [];
-    contents.push({
-        role: 'user',
-        parts: [{ text: `${systemInstruction}\n\n${contextData}\n\nPregunta inicial del cliente: Hola.` }]
-    });
-    contents.push({
-        role: 'model',
-        parts: [{ text: "¡Hola! Bienvenido a Core Notebooks. Soy tu Asesor Core AI. Estoy aquí para recomendarte la notebook o PC ideal de nuestro catálogo según lo que necesites hacer (programar, gaming, diseño, oficina) y tu presupuesto. ¿Contame qué tenías en mente?" }]
-    });
-    
-    const historySlice = chatHistory.slice(-8);
-    historySlice.forEach(turn => {
-        contents.push({
-            role: turn.role === 'user' ? 'user' : 'model',
-            parts: [{ text: turn.content }]
-        });
-    });
-
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                contents: contents,
-                generationConfig: {
-                    temperature: 0.6,
-                    maxOutputTokens: 1000
-                }
-            })
-        });
-
-        if (!response.ok) throw new Error('API request failed');
-        
-        const data = await response.json();
-        const responseText = data.candidates[0].content.parts[0].text;
-        
-        chatHistory.push({ role: 'model', content: responseText });
-        return responseText;
-    } catch (err) {
-        console.error("Gemini API error. Falling back to local responder:", err);
-        const p57715Usd = Math.round(1.20 * 789 + 140);
-        const p57715Ars = Math.round(p57715Usd * blueRate);
-        const p58300Usd = Math.round(1.20 * 419 + 140);
-        const p58300Ars = Math.round(p58300Usd * blueRate);
-        return `Disculpas, tuve un problema al conectarme con mis circuitos de IA de Google. Pero aquí tenés una recomendación directa de nuestro stock:\n\nSi buscás **gaming o alta potencia**, te sugiero la **HP Victus 15 (Código: 57715)** por **U$S ${p57715Usd}** (~$${p57715Ars.toLocaleString('es-AR')} ARS) con placa RTX 4050.\nSi buscás algo **económico para estudiar**, la **ASUS Vivobook Go 15 (Código: 58300)** por **U$S ${p58300Usd}** (~$${p58300Ars.toLocaleString('es-AR')} ARS) es una gran opción.`;
-    }
-}
-
-function generateMockReply(userText) {
-    const textLower = userText.toLowerCase();
-    let reply = "";
-    
-    const getMockPriceString = (id, baseUsd) => {
-        const laptop = allNotebooks.find(l => l.id === id);
-        const cost = laptop ? laptop.price_usd : baseUsd;
-        const usdPrice = Math.round(1.20 * cost + 140);
-        const arsPrice = Math.round(usdPrice * blueRate);
-        return `U$S ${usdPrice} (~$${arsPrice.toLocaleString('es-AR')} ARS)`;
-    };
-
-    if (textLower.includes('hola') || textLower.includes('buenas')) {
-        reply = "¡Hola! Soy tu **Asesor Core AI** en modo de simulación. 💻\n\nContame qué presupuesto tenés o para qué actividades vas a usar tu notebook o PC de escritorio (programación, diseño, oficina, gaming) y te recomendaré opciones de nuestro catálogo.";
-    } 
-    else if (textLower.includes('game') || textLower.includes('jugar') || textLower.includes('gaming') || textLower.includes('placa') || textLower.includes('rtx')) {
-        reply = "Para **Gaming y Alto Rendimiento**, te recomiendo estos modelos destacados:\n\n" +
-                "1. **PC Gamer i7-14700F (Código: 54911)**:\n" +
-                "   - **Precio:** " + getMockPriceString("54911", 1699) + "\n" +
-                "   - **Fuerza:** Intel i7 de 14ta gen, 32GB RAM DDR5 y **RTX 4070** de 12GB. Gabinete con vidrio templado. ¡Una bestia de escritorio!\n\n" +
-                "2. **HP Victus 15 (Código: 57715)**:\n" +
-                "   - **Precio:** " + getMockPriceString("57715", 789) + "\n" +
-                "   - **Fuerza:** Ryzen 7, 16GB RAM y una placa **RTX 4050** de 6GB. Excelente notebook portable.\n\n" +
-                "Haciendo clic en el código de arriba podés ver los detalles de cada equipo.";
-    } 
-    else if (textLower.includes('program') || textLower.includes('desarroll') || textLower.includes('ingenier') || textLower.includes('code') || textLower.includes('codigo')) {
-        reply = "Para **Programación y Desarrollo**, buscamos procesadores multinúcleo y buena RAM. Te sugiero:\n\n" +
-                "1. **PC Workstation Ryzen 9 (Código: 54916)**:\n" +
-                "   - **Precio:** " + getMockPriceString("54916", 2499) + "\n" +
-                "   - **Fuerza:** Ryzen 9 7900X, **64GB RAM DDR5** y RTX 4080 Super. Ideal para grandes compilaciones, docker, virtualización extrema.\n\n" +
-                "2. **ASUS Zenbook 14 OLED (Código: 57990)**:\n" +
-                "   - **Precio:** " + getMockPriceString("57990", 1399) + "\n" +
-                "   - **Fuerza:** Ultra 9, **32GB RAM** y pantalla 3K OLED. Muy portable y potente.\n\n" +
-                "Hacé clic en el código de arriba para abrir sus detalles.";
-    } 
-    else if (textLower.includes('barat') || textLower.includes('estudiar') || textLower.includes('econom') || textLower.includes('oficina') || textLower.includes('simple')) {
-        reply = "Para **Estudiantes y tareas de Oficina/Hogar**, te sugiero equipos ligeros y de excelente relación precio/calidad:\n\n" +
-                "1. **ASUS Vivobook Go 15 (Código: 58300)**:\n" +
-                "   - **Precio:** " + getMockPriceString("58300", 419) + "\n" +
-                "   - **Fuerza:** Ryzen 5, 8GB RAM, 512GB SSD. Perfecta para Classroom, Word, Excel y navegar.\n\n" +
-                "2. **PC de Oficina Slim i5 (Código: 54913)**:\n" +
-                "   - **Precio:** " + getMockPriceString("54913", 489) + "\n" +
-                "   - **Fuerza:** i5-13400 de 10 núcleos, 16GB RAM y 480GB SSD. Súper compacta y veloz para el escritorio.\n\n" +
-                "Para conversar de forma fluida, recordá colocar tu **API Key de Gemini** en el botón de engranaje de la barra superior o en el botón Sign Up.";
-    } 
-    else if (textLower.includes('disen') || textLower.includes('edit') || textLower.includes('foto') || textLower.includes('video') || textLower.includes('mac') || textLower.includes('apple')) {
-        reply = "Para **Diseño Gráfico y Edición**, te sugiero:\n\n" +
-                "1. **MacBook Pro 14.2'' M3 Pro (Código: 57003)**:\n" +
-                "   - **Precio:** " + getMockPriceString("57003", 1999) + "\n" +
-                "   - **Fuerza:** Chip M3 Pro, 18GB RAM y pantalla Liquid Retina XDR de nivel profesional.\n\n" +
-                "2. **PC Workstation Ryzen 9 (Código: 54916)**:\n" +
-                "   - **Precio:** " + getMockPriceString("54916", 2499) + "\n" +
-                "   - **Fuerza:** Ryzen 9, 64GB RAM DDR5, RTX 4080 Super. Ideal para renderizado 3D y edición de video 4K/8K sin tirones.";
-    } 
-    else {
-        reply = "Entiendo. Decime si buscás alguna marca en particular o si prefieres una notebook o una PC de escritorio para que te recomiende opciones de nuestro catálogo de 55 modelos.";
-    }
-    
-    chatHistory.push({ role: 'model', content: reply });
-    return reply;
-}
-
-/* ==========================================================================
-   7. SPA VIEW SWITCHING AND INITIALIZATION
-   ========================================================================== */
 function switchView(viewName, scrollTargetId = null) {
     const landingView = document.getElementById('landing-view');
     const catalogView = document.getElementById('catalog-view');
@@ -1090,6 +758,7 @@ function switchView(viewName, scrollTargetId = null) {
     const mainNav = document.querySelector('.main-nav');
     if (mainNav) {
         mainNav.classList.remove('mobile-visible');
+        document.getElementById('menu-toggle').setAttribute('aria-expanded', 'false');
     }
 }
 
@@ -1156,7 +825,11 @@ function setupViewSwitching() {
     if (menuToggle && mainNav) {
         menuToggle.addEventListener('click', (e) => {
             e.stopPropagation();
-            mainNav.classList.toggle('mobile-visible');
+            const expanded = mainNav.classList.toggle('mobile-visible');
+            menuToggle.setAttribute('aria-expanded', String(expanded));
+        });
+        mainNav.addEventListener('click', (e) => {
+            if (e.target.closest('a')) { mainNav.classList.remove('mobile-visible'); menuToggle.setAttribute('aria-expanded', 'false'); }
         });
         document.addEventListener('click', (e) => {
             if (!mainNav.contains(e.target) && e.target !== menuToggle) {
@@ -1167,7 +840,10 @@ function setupViewSwitching() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    initIntro();
+    setupToggleFilters();
+    setupViewSwitching();
+    loadCatalog();
+    fetchExchangeRate();
     const activeLink = document.getElementById('nav-inicio-link');
     if (activeLink) activeLink.classList.add('active');
 });

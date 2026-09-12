@@ -2282,3 +2282,28 @@ input:checked + .slider:before {
     accent-color: var(--accent-blue);
     cursor: pointer;
 }
+
+/* Clear purchasing paths and compact mobile navigation. */
+.hero-ctas { display:flex; flex-wrap:wrap; justify-content:center; gap:14px; }
+.btn-cta-secondary { background:transparent; color:#f4f4f5; border:1px solid #52525b; }
+.use-cases { max-width:1200px; margin:auto; padding:28px 24px; border-block:1px solid var(--border-color); display:flex; flex-wrap:wrap; gap:20px; justify-content:space-between; color:#a1a1aa; }
+.use-cases div { display:flex; flex-wrap:wrap; gap:12px; }
+.use-cases div span { padding:7px 12px; border:1px solid var(--border-color); border-radius:20px; color:#e4e4e7; }
+.footer-contact a { color:inherit; text-decoration:underline; text-underline-offset:4px; }
+button:focus-visible, a:focus-visible, input:focus-visible { outline:2px solid #60a5fa; outline-offset:4px; }
+@media (max-width:820px) {
+  .exchange-rate-badge { display:none; }
+  .nav-container { gap:12px; padding-inline:16px; }
+  .header-actions { gap:12px; }
+  .brand-logo { font-size:18px; white-space:nowrap; }
+}
+@media (max-width:560px) {
+  .header-actions .btn-signup { display:none; }
+  .currency-switch-container { gap:5px; }
+  .brand-logo { gap:6px; font-size:16px; }
+  .hero-ctas { flex-direction:column; align-items:stretch; }
+  .warranty-card-glass { padding:24px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  *, *::before, *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+}

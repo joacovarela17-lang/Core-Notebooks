@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Core Notebooks | Minimalist Premium Technology</title>
+    <title>Core Notebooks | Notebooks para estudiar, trabajar y jugar</title>
+    <meta name="description" content="Compará notebooks para estudio, programación, diseño y gaming. Consultá precios y disponibilidad por WhatsApp con Core Notebooks.">
+    <meta name="theme-color" content="#09090b">
     
     <!-- Fontshare CDN: Imports General Sans (weights 400, 500, 600, 700) and Geist (weights 400, 500, 600, 700) -->
     <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=geist@400,500,600,700&display=swap" rel="stylesheet">
@@ -16,40 +18,8 @@
 </head>
 <body>
 
-    <!-- SECTION 1: CINEMATIC FULLSCREEN INTRO OVERLAY -->
-    <div id="intro-overlay" class="intro-active">
-        <!-- Fullscreen Video -->
-        <video id="intro-video" preload="auto" playsinline muted>
-            <source src="intro.mp4" type="video/mp4">
-        </video>
-
-        <!-- Intro Text Overlay (fades in cinematically on top of video) -->
-        <div id="intro-text-wrapper">
-            <p class="intro-subtext animate-sub">INGENIERÍA A TU SERVICIO</p>
-            <h1 class="intro-title animate-title">CORE NOTEBOOKS</h1>
-            <p class="intro-description animate-desc">Importación directa de tecnología premium</p>
-        </div>
-
-        <!-- 3D Laptop Fallback Animation (shown only if video fails) -->
-        <div id="laptop-fallback" class="laptop-3d" style="display: none;">
-            <div class="keyboard-base"></div>
-            <div class="lid-hinge">
-                <div class="screen-lid">
-                    <div class="screen-content">
-                        <div class="core-logo-glow">
-                            <i class="fa-solid fa-microchip logo-icon"></i>
-                            <span>CORE</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <button id="skip-intro-btn" class="skip-btn">Ingresar al sitio <i class="fa-solid fa-arrow-right"></i></button>
-    </div>
-
     <!-- SECTION 2: MAIN SITE CONTAINER -->
-    <div id="app-container" class="app-hidden">
+    <div id="app-container" class="app-visible">
         
         <!-- HEADER / NAVIGATION -->
         <header class="main-header">
@@ -60,15 +30,15 @@
                 </a>
                 
                 <!-- Central Navigation Menu (Geist Sans, text-base, text-foreground/90) -->
-                <nav class="main-nav">
+                <nav class="main-nav" id="main-nav" aria-label="Navegación principal">
                     <a href="#catalog" class="nav-link" id="nav-catalog-link">Catálogo</a>
                     <a href="#nosotros" class="nav-link" id="nav-nosotros-link">Nosotros</a>
-                    <a href="#advisor-anchor" class="nav-link" id="nav-advisor-link">Learning</a>
+                    <a href="#advisor-anchor" class="nav-link" id="nav-advisor-link">Asesoramiento</a>
                 </nav>
 
                 <div class="header-actions">
                     <!-- Live exchange rate display -->
-                    <div class="exchange-rate-badge" id="rate-badge" title="Cotización Dólar Blue (Live)">
+                    <div class="exchange-rate-badge" id="rate-badge" title="Cotización de referencia del dólar blue">
                         <span>Dólar Blue: </span>
                         <strong id="blue-rate-value">Cargando...</strong>
                     </div>
@@ -77,23 +47,18 @@
                     <div class="currency-switch-container">
                         <span class="currency-label">USD</span>
                         <label class="switch">
-                            <input type="checkbox" id="currency-toggle">
+                            <input type="checkbox" id="currency-toggle" aria-label="Mostrar precios en pesos" disabled>
                             <span class="slider round"></span>
                         </label>
                         <span class="currency-label highlight-ars">ARS</span>
                     </div>
 
-                    <!-- Config Settings Button -->
-                    <button class="settings-btn" id="open-settings-btn" title="Configurar API Key">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-
                     <!-- "Sign Up" button on the right (Geist Sans, text-base, font-normal) -->
-                    <button class="btn-signup" id="signup-btn">Sign Up</button>
+                    <button class="btn-signup" id="signup-btn">Consultar</button>
                 </div>
 
                 <!-- Mobile Menu Toggle -->
-                <button class="mobile-menu-toggle" id="menu-toggle">
+                <button class="mobile-menu-toggle" id="menu-toggle" aria-label="Abrir menú" aria-controls="main-nav" aria-expanded="false">
                     <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
@@ -110,47 +75,20 @@
                     
                     <!-- Subtext: Centered, Geist Sans, text-lg, leading-8, opacity-80, split in 2 lines -->
                     <p class="hero-subtext-desc">
-                        The most powerful hardware ever deployed<br/>for engineering and development.
+                        Tu próxima notebook, elegida con criterio.<br/>Para estudiar, trabajar, diseñar o jugar.
                     </p>
                     
                     <!-- Action Button: Geist Sans, text-base, font-normal -->
                     <div class="hero-ctas">
-                        <button class="btn-cta" id="hero-schedule-btn">Schedule a Consult</button>
+                        <button class="btn-cta" id="hero-catalog-btn">Ver notebooks <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+                        <button class="btn-cta btn-cta-secondary" id="hero-schedule-btn">Consultar por WhatsApp</button>
                     </div>
                 </div>
             </section>
 
-            <!-- SOCIAL PROOF / MARQUEE SECTION -->
-            <section class="social-proof-section">
-                <div class="social-proof-container">
-                    <!-- Left Intro Text: Geist Sans, text-sm, text-foreground/50, whitespace-nowrap, split in 2 lines -->
-                    <div class="social-proof-intro">
-                        Relied on by brands<br/>across the globe
-                    </div>
-                    
-                    <!-- Right Brand Marquee: Geist Sans, text-base, font-semibold -->
-                    <div class="brand-marquee-container">
-                        <div class="brand-marquee-track">
-                            <span class="brand-item">Vortex</span>
-                            <span class="brand-item">Nimbus</span>
-                            <span class="brand-item">Prysma</span>
-                            <span class="brand-item">Aero</span>
-                            <span class="brand-item">Apex</span>
-                            <span class="brand-item">Spectra</span>
-                            <span class="brand-item">Nova</span>
-                            <span class="brand-item">Aura</span>
-                            <!-- Repeat items to create endless scroll loop -->
-                            <span class="brand-item">Vortex</span>
-                            <span class="brand-item">Nimbus</span>
-                            <span class="brand-item">Prysma</span>
-                            <span class="brand-item">Aero</span>
-                            <span class="brand-item">Apex</span>
-                            <span class="brand-item">Spectra</span>
-                            <span class="brand-item">Nova</span>
-                            <span class="brand-item">Aura</span>
-                        </div>
-                    </div>
-                </div>
+            <section class="use-cases" aria-label="Encontrá tu notebook según el uso">
+                <span>Una notebook para cada proyecto</span>
+                <div><span>Estudio y oficina</span><span>Programación</span><span>Diseño y edición</span><span>Gaming</span></div>
             </section>
 
             <!-- FEATURED PRODUCTS SECTION -->
@@ -158,7 +96,7 @@
                 <div class="section-header">
                     <span class="section-tag">Nuestras Recomendaciones</span>
                     <h2 class="section-title">Equipos Destacados</h2>
-                    <p class="section-subtitle">Una selección de hardware de alta gama recomendado por ingenieros.</p>
+                    <p class="section-subtitle">Compará especificaciones y consultanos por disponibilidad y condiciones de entrega.</p>
                 </div>
                 <div id="featured-grid" class="products-grid">
                     <!-- Rendered dynamically -->
@@ -347,7 +285,7 @@
                         <i class="fa-solid fa-microchip"></i>
                         <span>Core Notebooks</span>
                     </div>
-                    <p>Tecnología premium directa al usuario. Elegida por ingenieros.</p>
+                    <p>Notebooks para tus proyectos, con asesoramiento personalizado.</p>
                 </div>
                 <div class="footer-links">
                     <h4>Navegación</h4>
@@ -357,8 +295,8 @@
                 </div>
                 <div class="footer-contact">
                     <h4>Contacto & Ventas</h4>
-                    <p><i class="fa-brands fa-whatsapp text-accent"></i> WhatsApp: +54 9 11 3456-7890</p>
-                    <p><i class="fa-solid fa-envelope text-accent"></i> ventas@corenotebooks.com</p>
+                    <p><a href="https://wa.me/543757685727" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp text-accent" aria-hidden="true"></i> WhatsApp: +54 3757 685727</a></p>
+                    <p>Consultá precios, disponibilidad y entrega por WhatsApp.</p>
                     <p><i class="fa-solid fa-location-dot text-accent"></i> Buenos Aires, Argentina</p>
                 </div>
             </div>
@@ -370,10 +308,10 @@
         <!-- GEMINI AI FLOATING WIDGET -->
         <div id="ai-advisor-widget">
             <!-- Floating Bubble -->
-            <button id="ai-bubble-trigger" class="ai-bubble" title="Preguntale a nuestro Asesor AI">
+            <button id="ai-bubble-trigger" class="ai-bubble" title="Abrir asesor del catálogo">
                 <div class="pulse-ring"></div>
                 <i class="fa-solid fa-wand-magic-sparkles"></i>
-                <span class="bubble-tooltip">¿Buscás laptop? Ayuda AI</span>
+                <span class="bubble-tooltip">Ayuda para elegir</span>
             </button>
 
             <!-- Chat Panel Slide-out -->
@@ -384,17 +322,17 @@
                             <i class="fa-solid fa-brain"></i>
                         </div>
                         <div class="ai-details">
-                            <h3>Asesor Core AI</h3>
-                            <span class="ai-status"><span class="status-dot"></span>Online (Gemini 1.5 Flash)</span>
+                            <h3>Asesor del catálogo</h3>
+                            <span class="ai-status"><span class="status-dot"></span>Guía automática por tipo de uso</span>
                         </div>
                     </div>
-                    <button id="close-chat-btn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+                    <button id="close-chat-btn" aria-label="Cerrar asesor" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
                 </div>
 
                 <div class="chat-messages" id="chat-messages-container">
                     <div class="chat-msg ai-msg">
-                        <p>¡Hola! Soy tu <strong>Asesor Core AI</strong> de notebooks. 💻🧠</p>
-                        <p>Estoy conectado al catálogo de Core Notebooks para recomendarte el equipo exacto que necesitás. Contame: ¿para qué vas a usar la notebook (estudiar, gaming, diseño, oficina)? ¿Y cuál es tu presupuesto estimado?</p>
+                        <p>¡Hola! Soy tu <strong>Asesor del catálogo</strong> de notebooks. 💻🧠</p>
+                        <p>Te muestro opciones del catálogo según el uso que elijas. Podés seleccionar estudio, gaming, programación o diseño. Para confirmar presupuesto y disponibilidad, consultanos por WhatsApp.</p>
                     </div>
                 </div>
 
@@ -405,38 +343,8 @@
                 </div>
 
                 <div class="chat-input-area">
-                    <textarea id="chat-input" placeholder="Preguntame lo que quieras..." rows="1"></textarea>
-                    <button id="send-chat-btn" class="send-btn" disabled><i class="fa-solid fa-paper-plane"></i></button>
-                </div>
-            </div>
-        </div>
-
-        <!-- SETTINGS MODAL (Gemini API Key configuration) -->
-        <div id="settings-modal" class="modal-overlay">
-            <div class="modal-content settings-modal-content">
-                <div class="modal-header">
-                    <h2><i class="fa-solid fa-gear"></i> Configuración del Asesor AI</h2>
-                    <button class="modal-close" id="close-settings-btn"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-                <div class="modal-body">
-                    <p>Para habilitar el <strong>Asesor Core AI</strong> interactivo en esta computadora, es necesario ingresar tu API Key de Gemini (Google AI Studio). La key se guarda de forma segura únicamente en tu navegador (`localStorage`).</p>
-                    
-                    <div class="input-group">
-                        <label for="gemini-api-key">Gemini API Key:</label>
-                        <div class="password-input-wrapper">
-                            <input type="password" id="gemini-api-key" placeholder="AIzaSy...">
-                            <button id="toggle-key-visibility" class="view-key-btn"><i class="fa-solid fa-eye"></i></button>
-                        </div>
-                        <span class="input-helper">¿No tenés una API Key? Podés obtener una gratis en <a href="https://aistudio.google.com/" target="_blank">Google AI Studio</a>.</span>
-                    </div>
-
-                    <div class="key-status-badge idel-status" id="key-status">
-                        <i class="fa-solid fa-circle-question"></i> API Key no configurada. El asesor AI funcionará con respuestas de simulación locales.
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" id="clear-settings-btn">Borrar Key</button>
-                    <button class="btn btn-primary" id="save-settings-btn">Guardar Cambios</button>
+                    <textarea id="chat-input" aria-label="Contanos para qué usarías la notebook" placeholder="Preguntame lo que quieras..." rows="1"></textarea>
+                    <button id="send-chat-btn" aria-label="Enviar consulta al asesor" class="send-btn" disabled><i class="fa-solid fa-paper-plane"></i></button>
                 </div>
             </div>
         </div>
